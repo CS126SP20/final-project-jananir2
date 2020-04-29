@@ -87,15 +87,30 @@ if(NOT catch2_POPULATED)
 endif()
 
 # Add more CMake libraries here ...
+
+# Testing library. Header-only.
 FetchContent_Declare(
-        NanoGUI
-        GIT_REPOSITORY https://github.com/wjakob/nanogui.git
+        csv2
+        GIT_REPOSITORY https://github.com/p-ranav/csv2.git
 )
 
-FetchContent_GetProperties(nanogui)
-if (NOT nanogui_POPULATED)
-    FetchContent_Populate(nanogui)
-    add_subdirectory(${nanogui_SOURCE_DIR} ${nanogui_BINARY_DIR})
-endif ()
+# Adds catch2 library. This is a header only library.
+FetchContent_GetProperties(csv2)
+if(NOT csv2_POPULATED)
+    FetchContent_Populate(csv2)
+    # This is overkill since we only need a single file. Though it is a clean solution.
+    add_library(csv2 INTERFACE)
+    target_include_directories(csv2 INTERFACE ${csv2_SOURCE_DIR}/include)
+endif()
+#FetchContent_Declare(
+#        NanoGUI
+#        GIT_REPOSITORY https://github.com/wjakob/nanogui.git
+#)
+#
+#FetchContent_GetProperties(nanogui)
+#if (NOT nanogui_POPULATED)
+#    FetchContent_Populate(nanogui)
+#    add_subdirectory(${nanogui_SOURCE_DIR} ${nanogui_BINARY_DIR})
+#endif ()
 
-target_link_libraries(cinder-myapp nanogui)
+#target_link_libraries(cinder-myapp nanogui)

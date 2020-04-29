@@ -13,7 +13,7 @@ ci_make_app(
     APP_NAME    cinder-myapp
     CINDER_PATH ${CINDER_PATH}
     SOURCES     ${SOURCE_LIST}
-    LIBRARIES   mylibrary nanogui
+    LIBRARIES   mylibrary csv2
     BLOCKS
 )
 

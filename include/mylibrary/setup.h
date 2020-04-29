@@ -5,10 +5,6 @@
 #ifndef FINALPROJECT_SETUP_H
 #define FINALPROJECT_SETUP_H
 
-#include <nanogui/button.h>
-
-using namespace nanogui;
-
 class setup {
 //  Button button;
 };
