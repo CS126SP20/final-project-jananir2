@@ -4,9 +4,18 @@
 
 #ifndef FINALPROJECT_SETUP_H
 #define FINALPROJECT_SETUP_H
-
-class setup {
-//  Button button;
+#include <vector>
+namespace mylibrary {
+class Setup {
+ public:
+  int curr_question;
+  Setup();
+  std::vector<std::vector<std::string>> retrieve_questions();
+  std::vector<std::string> retrieve_question(int num);
+  int get_curr_question();
+  void update_curr_question();
 };
 
+
+}
 #endif  // FINALPROJECT_SETUP_H
