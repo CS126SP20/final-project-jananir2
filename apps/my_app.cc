@@ -7,6 +7,12 @@
 #include <cinder/gl/gl.h>
 #include <mylibrary/setup.h>
 
+namespace myapp {
+
+using cinder::app::KeyEvent;
+using namespace csv2;
+using namespace cinder;
+
 #if defined(CINDER_COCOA_TOUCH)
 const char kNormalFont[] = "Arial";
 const char kBoldFont[] = "Arial-BoldMT";
@@ -21,14 +27,8 @@ const char kBoldFont[] = "Arial Bold";
 const char kDifferentFont[] = "Papyrus";
 #endif
 
-namespace myapp {
-
-using cinder::app::KeyEvent;
-using namespace csv2;
-using namespace cinder;
-
-MyApp::MyApp() {}
-
+MyApp::MyApp()
+    : setup_{0} {}
 template <typename C>
 void PrintText(const std::string& text, const C& color,
                const cinder::ivec2& size, const cinder::vec2& loc) {
@@ -61,15 +61,16 @@ void MyApp::update() {}
 void MyApp::draw() {
   const cinder::vec2 center = getWindowCenter();
   const cinder::ivec2 size = {50, 50};
+  cinder::gl::clear(Color(1, 0.5, 0.5));
   const Color color = Color::black();
 
-//  csv2::Reader<delimiter<','>, quote_character<'"'>, first_row_is_header<true>,
-//               trim_policy::trim_whitespace> csv;
-//  std::string filename = "resources/names.csv";
+//  csv2::Reader<delimiter<','>, quote_character<'"'>, first_row_is_header<true>> csv;
+//  std::string filename = getAssetPath("names.csv").string();
 //  if (csv.mmap(filename)) {
-//    //    const auto header = csv.header();
+//    const auto header = csv.header();
+//    cinder::gl::clear(Color(.6, 1, 0.3));
 //    std::string value = "Hi";
-//    //    auto row_iter = csv.begin();
+//        auto row_iter = csv.begin();
 //    //    auto row = *row_iter;
 //    //    auto cell_iter = row.begin();
 //    //    auto cell = *cell_iter;
@@ -92,21 +93,31 @@ void MyApp::draw() {
   //  }
   DrawQuestion();
 }
-  void MyApp::keyDown(KeyEvent event) {}
+  void MyApp::keyDown(KeyEvent event) {
+    switch (event.getCode()) {
+      case KeyEvent::KEY_RIGHT: {
+        setup_.inc_curr_question();
+        break;
+      }
+      case KeyEvent::KEY_LEFT: {
+        setup_.dec_curr_question();
+        break;
+      }
+    }
+  }
+
   void MyApp::DrawQuestion() {
     const cinder::vec2 center = getWindowCenter();
-    const cinder::ivec2 size = {50, 50};
+    const cinder::ivec2 size = {500, 50};
     const Color color = Color::black();
 
-    mylibrary::Setup* quiz = new mylibrary::Setup();
-    int curr_question = quiz->get_curr_question();
-    std::vector<std::string> quiz_question = quiz->retrieve_question(curr_question);
+    std::vector<std::string> quiz_question =
+        setup_.retrieve_question(setup_.get_curr_question());
     size_t row = 0;
-    PrintText("Game Over :(", color, size, center);
+    PrintText("Trivia", color, size, center);
     for (std::string line : quiz_question) {
       PrintText(line, color, size, {center.x, center.y + (++row) * 50});
     }
   }
-
 // namespace myapp
 }

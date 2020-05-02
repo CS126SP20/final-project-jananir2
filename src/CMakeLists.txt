@@ -5,7 +5,6 @@
 get_filename_component(CINDER_PATH "${CMAKE_CURRENT_SOURCE_DIR}/../../../" ABSOLUTE)
 include("${CINDER_PATH}/proj/cmake/modules/cinderMakeApp.cmake")
 include("${FinalProject_SOURCE_DIR}/cmake/make_cinder_library.cmake")
-#include_directories(../cmake-build-debug/_deps/nanogui-src/include)
 
 
 file(GLOB SOURCE_LIST CONFIGURE_DEPENDS
@@ -13,7 +12,6 @@ file(GLOB SOURCE_LIST CONFIGURE_DEPENDS
         "${FinalProject_SOURCE_DIR}/src/*.hpp"
         "${FinalProject_SOURCE_DIR}/src/*.cc"
         "${FinalProject_SOURCE_DIR}/src/*.cpp")
-
 
 ci_make_library(
         LIBRARY_NAME mylibrary

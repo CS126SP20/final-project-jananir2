@@ -102,15 +102,3 @@ if(NOT csv2_POPULATED)
     add_library(csv2 INTERFACE)
     target_include_directories(csv2 INTERFACE ${csv2_SOURCE_DIR}/include)
 endif()
-#FetchContent_Declare(
-#        NanoGUI
-#        GIT_REPOSITORY https://github.com/wjakob/nanogui.git
-#)
-#
-#FetchContent_GetProperties(nanogui)
-#if (NOT nanogui_POPULATED)
-#    FetchContent_Populate(nanogui)
-#    add_subdirectory(${nanogui_SOURCE_DIR} ${nanogui_BINARY_DIR})
-#endif ()
-
-#target_link_libraries(cinder-myapp nanogui)

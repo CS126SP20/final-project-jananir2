@@ -2,17 +2,20 @@
 // Created by janan on 4/26/2020.
 //
 
-#include "mylibrary/setup.h"
+#include <mylibrary/setup.h>
+#include <vector>
 namespace mylibrary {
 
-mylibrary::Setup::Setup() {
-  curr_question = 0;
+using namespace std;
+
+Setup::Setup(int index) {
+  curr_question = index;
 }
 
-std::vector<std::vector<std::string>> mylibrary::Setup::retrieve_questions() {
-  std::vector<std::vector<std::string>> questions;
+vector<vector<string>> Setup::retrieve_questions() {
+  vector<vector<string>> questions;
 
-  std::vector<std::string> question1;
+  vector<string> question1;
   question1.push_back("What is the name for the Jewish New Year?");
   question1.push_back("A) Hanukkah");
   question1.push_back("B) Yom Kippur");
@@ -21,7 +24,7 @@ std::vector<std::vector<std::string>> mylibrary::Setup::retrieve_questions() {
   question1.push_back("D) Rosh Hashanah");
   questions.push_back(question1);
 
-  std::vector<std::string> question2;
+  vector<string> question2;
   question2.push_back("How many blue stripes are there on the U.S. flag?");
   question2.push_back("A) 6");
   question2.push_back("B) 7");
@@ -30,7 +33,7 @@ std::vector<std::vector<std::string>> mylibrary::Setup::retrieve_questions() {
   question2.push_back("D) 0");
   questions.push_back(question2);
 
-  std::vector<std::string> question3;
+  vector<string> question3;
   question3.push_back("Which country held the 2016 Summer Olympics?");
   question3.push_back("A) China");
   question3.push_back("B) Ireland");
@@ -42,7 +45,7 @@ std::vector<std::vector<std::string>> mylibrary::Setup::retrieve_questions() {
   return questions;
 }
 
-std::vector<std::string> mylibrary::Setup::retrieve_question(int num) {
+vector<string> Setup::retrieve_question(int num) {
   std::vector<std::vector<std::string>> questions = retrieve_questions();
   return questions.at(num);
 }
@@ -50,5 +53,7 @@ int Setup::get_curr_question() {
   return curr_question;
 }
 
-void Setup::update_curr_question() { curr_question++; }
-}
+void Setup::inc_curr_question() { curr_question++; }
+void Setup::dec_curr_question() { curr_question--; }
+
+} // namespace mylibrary

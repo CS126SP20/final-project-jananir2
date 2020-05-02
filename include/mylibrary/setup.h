@@ -2,20 +2,25 @@
 // Created by janan on 4/26/2020.
 //
 
-#ifndef FINALPROJECT_SETUP_H
-#define FINALPROJECT_SETUP_H
+#ifndef FINALPROJECT_MYLIBRARY_SETUP_H_
+#define FINALPROJECT_MYLIBRARY_SETUP_H_
 #include <vector>
 namespace mylibrary {
+
 class Setup {
  public:
-  int curr_question;
-  Setup();
-  std::vector<std::vector<std::string>> retrieve_questions();
+  Setup(int index);
   std::vector<std::string> retrieve_question(int num);
   int get_curr_question();
-  void update_curr_question();
+  void dec_curr_question();
+  void inc_curr_question();
+
+ private:
+  std::vector<std::vector<std::string>> retrieve_questions();
+
+ private:
+  int curr_question;
 };
 
-
 }
-#endif  // FINALPROJECT_SETUP_H
+#endif  // FINALPROJECT_MYLIBRARY_SETUP_H_
