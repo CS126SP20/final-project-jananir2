@@ -5,6 +5,8 @@
 #ifndef FINALPROJECT_MYLIBRARY_SETUP_H_
 #define FINALPROJECT_MYLIBRARY_SETUP_H_
 #include <vector>
+#include <csv2/reader.hpp>
+
 namespace mylibrary {
 
 class Setup {

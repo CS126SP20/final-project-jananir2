@@ -2,11 +2,17 @@
 // Created by janan on 4/26/2020.
 //
 
+#include <cinder/gl/wrapper.h>
+#include <csv2/reader.hpp>
 #include <mylibrary/setup.h>
+#include <cinder/app/App.h>
+
 #include <vector>
 namespace mylibrary {
 
 using namespace std;
+using namespace csv2;
+using namespace cinder;
 
 Setup::Setup(int index) {
   curr_question = index;
@@ -15,32 +21,23 @@ Setup::Setup(int index) {
 vector<vector<string>> Setup::retrieve_questions() {
   vector<vector<string>> questions;
 
-  vector<string> question1;
-  question1.push_back("What is the name for the Jewish New Year?");
-  question1.push_back("A) Hanukkah");
-  question1.push_back("B) Yom Kippur");
-  question1.push_back("C) Kwanza");
-  question1.push_back("D) Rosh Hashanah");
-  question1.push_back("D) Rosh Hashanah");
-  questions.push_back(question1);
-
-  vector<string> question2;
-  question2.push_back("How many blue stripes are there on the U.S. flag?");
-  question2.push_back("A) 6");
-  question2.push_back("B) 7");
-  question2.push_back("C) 13");
-  question2.push_back("D) 0");
-  question2.push_back("D) 0");
-  questions.push_back(question2);
-
-  vector<string> question3;
-  question3.push_back("Which country held the 2016 Summer Olympics?");
-  question3.push_back("A) China");
-  question3.push_back("B) Ireland");
-  question3.push_back("C) Brazil");
-  question3.push_back("D) Italy");
-  question3.push_back("D) Brazil");
-  questions.push_back(question3);
+  csv2::Reader<delimiter<','>, quote_character<'"'>, first_row_is_header<true>> csv;
+  std::string filename = cinder::app::getAssetPath("names.csv").string();
+  vector<string> question;
+  std::string value;
+  if (csv.mmap(filename)) {
+    const auto header = csv.header();
+    for (auto row : csv) {
+      question.clear();
+      for (auto cell : row) {
+        value = "";
+        cell.read_value(value);
+        question.push_back(value);
+      }
+      question.pop_back();
+      questions.push_back(question);
+    }
+  }
 
   return questions;
 }

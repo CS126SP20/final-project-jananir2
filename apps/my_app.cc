@@ -36,7 +36,7 @@ void PrintText(const std::string& text, const C& color,
 
   auto box = TextBox()
                  .alignment(TextBox::CENTER)
-                 .font(cinder::Font(kNormalFont, 30))
+                 .font(cinder::Font(kNormalFont, 50))
                  .size(size)
                  .color(color)
                  .backgroundColor(ColorA(0, 0, 0, 0))
@@ -59,38 +59,21 @@ void MyApp::setup() {
 void MyApp::update() {}
 
 void MyApp::draw() {
-  const cinder::vec2 center = getWindowCenter();
-  const cinder::ivec2 size = {50, 50};
   cinder::gl::clear(Color(1, 0.5, 0.5));
-  const Color color = Color::black();
 
 //  csv2::Reader<delimiter<','>, quote_character<'"'>, first_row_is_header<true>> csv;
 //  std::string filename = getAssetPath("names.csv").string();
 //  if (csv.mmap(filename)) {
 //    const auto header = csv.header();
-//    cinder::gl::clear(Color(.6, 1, 0.3));
-//    std::string value = "Hi";
+//    cinder::gl::clear(Color(.6, .1, .5));
+//    std::string value;
 //        auto row_iter = csv.begin();
-//    //    auto row = *row_iter;
-//    //    auto cell_iter = row.begin();
-//    //    auto cell = *cell_iter;
-//    //    cell.read_value(value);
-//    PrintText(value, color, size, center);
+//        auto row = *row_iter;
+//        auto cell_iter = row.begin();
+//        auto cell = *cell_iter;
+//        cell.read_value(value);
 //  }
 
-  //  auto cell_iter = row.begin();
-  //  auto cell = *cell_iter;
-  //  cell.read_value(value);
-
-  //  for (int i = 0; i < 4; i++) { auto row_iter = csv.begin(); //row_iter != csv.end(); ++row_iter) {
-  //    value = "yo";
-  //    auto curr_row = *row_iter;
-  //    for (auto cell_iter = curr_row.begin(); cell_iter != curr_row.end(); ++cell_iter) {
-  //      // Do something with cell value
-  //      auto curr_cell = *cell_iter;
-  //      curr_cell.read_value(value);
-  //    }
-  //  }
   DrawQuestion();
 }
   void MyApp::keyDown(KeyEvent event) {
@@ -108,13 +91,13 @@ void MyApp::draw() {
 
   void MyApp::DrawQuestion() {
     const cinder::vec2 center = getWindowCenter();
-    const cinder::ivec2 size = {500, 50};
+    const cinder::ivec2 size = {1000, 500};
     const Color color = Color::black();
 
     std::vector<std::string> quiz_question =
         setup_.retrieve_question(setup_.get_curr_question());
-    size_t row = 0;
-    PrintText("Trivia", color, size, center);
+    size_t row = -1;
+//    PrintText("Trivia", color, size, center);
     for (std::string line : quiz_question) {
       PrintText(line, color, size, {center.x, center.y + (++row) * 50});
     }
