@@ -34,13 +34,14 @@ void PrintText(const std::string& text, const C& color,
                const cinder::ivec2& size, const cinder::vec2& loc) {
   cinder::gl::color(color);
 
-  auto box = TextBox()
+  cinder::TextBox box = TextBox()
                  .alignment(TextBox::CENTER)
-                 .font(cinder::Font(kNormalFont, 50))
+                 .font(cinder::Font(cinder::app::loadAsset("Hey Fun.ttf"), 15.0))
                  .size(size)
                  .color(color)
                  .backgroundColor(ColorA(0, 0, 0, 0))
                  .text(text);
+
 
   const auto box_size = box.getSize();
   const cinder::vec2 locp = {loc.x - box_size.x / 2, loc.y - box_size.y / 2};
