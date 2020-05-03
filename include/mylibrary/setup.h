@@ -11,18 +11,18 @@ namespace mylibrary {
 
 class Setup {
  public:
-  Setup(int index);
-  std::vector<std::string> retrieve_question(int num);
-  int get_curr_question();
-  void dec_curr_question();
-  void inc_curr_question();
+  Setup();
+  int GetNumQuestions();
+  void PopulateQAvectors();
+  std::vector<std::vector<std::string>> RetrieveQuestions();
+  std::vector<std::string> RetrieveAnswers();
 
  private:
-  std::vector<std::vector<std::string>> retrieve_questions();
 
  private:
-  int curr_question;
   int num_questions;
+  std::vector<std::string> answers;
+  std::vector<std::vector<std::string>> questions;
 };
 
 }

@@ -29,7 +29,7 @@ const char kDifferentFont[] = "Papyrus";
 #endif
 
 MyApp::MyApp()
-    : setup_{0} {}
+    : engine_{} {}
 template <typename C>
 void PrintText(const std::string& text, const C& color,
                const cinder::ivec2& size, const cinder::vec2& loc) {
@@ -67,12 +67,15 @@ void MyApp::draw() {
   void MyApp::keyDown(KeyEvent event) {
     switch (event.getCode()) {
       case KeyEvent::KEY_RIGHT: {
-        setup_.inc_curr_question();
+        engine_.IncCurrQuestion();
         break;
       }
       case KeyEvent::KEY_LEFT: {
-        setup_.dec_curr_question();
+        engine_.DecCurrQuestion();
         break;
+      }
+      case KeyEvent::KEY_a: {
+        engine_.GetChoice('A', engine_.GetCurrQuestionIndex());
       }
     }
   }
@@ -83,7 +86,7 @@ void MyApp::draw() {
     const Color color = Color::black();
 
     std::vector<std::string> quiz_question =
-        setup_.retrieve_question(setup_.get_curr_question());
+        engine_.RetrieveQuestion(engine_.GetCurrQuestionIndex());
     int row = -1;
 //    PrintText("Trivia", color, size, center);
     for (std::string line : quiz_question) {

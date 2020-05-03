@@ -3,6 +3,9 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/cmake-build-debug/_deps/catch2-src" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/cmake-build-debug/_deps/csv2-src" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/cmake-build-debug/_deps/gflags-src" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/cmake-build-debug/_deps/gflags-src/doc" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/cmake-build-debug/_deps/nanogui-src" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/cmake-build-debug/_deps/nanogui-src/ext/eigen" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/cmake-build-debug/_deps/nanogui-src/ext/glfw" vcs="Git" />

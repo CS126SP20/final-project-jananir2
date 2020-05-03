@@ -4,7 +4,7 @@
 #define FINALPROJECT_MYAPP_H_
 
 #include <cinder/app/App.h>
-#include <mylibrary/setup.h>
+#include <mylibrary/engine.h>
 
 
 namespace myapp {
@@ -22,7 +22,7 @@ class MyApp : public cinder::app::App {
   void DrawQuestionBackground();
 
  private:
-  mylibrary::Setup setup_;
+  mylibrary::Engine engine_;
 };
 
 }  // namespace myapp

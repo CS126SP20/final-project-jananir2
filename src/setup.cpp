@@ -14,13 +14,13 @@ using namespace std;
 using namespace csv2;
 using namespace cinder;
 
-Setup::Setup(int index) {
-  curr_question = index;
-  num_questions = 0;
+Setup::Setup() {
+  PopulateQAvectors();
 }
 
-vector<vector<string>> Setup::retrieve_questions() {
-  vector<vector<string>> questions;
+int Setup::GetNumQuestions() { return questions.size(); }
+
+void Setup::PopulateQAvectors() {
 
   csv2::Reader<delimiter<','>, quote_character<'"'>, first_row_is_header<true>> csv;
   std::string filename = cinder::app::getAssetPath("names.csv").string();
@@ -35,31 +35,20 @@ vector<vector<string>> Setup::retrieve_questions() {
         cell.read_value(value);
         question.push_back(value);
       }
+      answers.push_back(question.back());
       question.pop_back();
       questions.push_back(question);
     }
   }
-  num_questions = questions.size();
+
+}
+
+vector<vector<string>> Setup::RetrieveQuestions() {
   return questions;
 }
 
-vector<string> Setup::retrieve_question(int num) {
-  std::vector<std::vector<std::string>> questions = retrieve_questions();
-  return questions.at(num);
-}
-int Setup::get_curr_question() {
-  return curr_question;
-}
-
-void Setup::inc_curr_question() {
-  if (curr_question < num_questions) {
-    curr_question++;
-  }
-}
-void Setup::dec_curr_question() {
-  if (curr_question > 0) {
-    curr_question--;
-  }
+vector<string> Setup::RetrieveAnswers() {
+  return answers;
 }
 
 } // namespace mylibrary
