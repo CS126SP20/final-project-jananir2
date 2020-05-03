@@ -32,8 +32,6 @@ MyApp::MyApp()
 template <typename C>
 void PrintText(const std::string& text, const C& color,
                const cinder::ivec2& size, const cinder::vec2& loc) {
-  cinder::gl::color(color);
-
   cinder::TextBox box = TextBox()
                  .alignment(TextBox::CENTER)
                  .font(cinder::Font(cinder::app::loadAsset("Hey Fun.ttf"), 15.0))
@@ -60,7 +58,7 @@ void MyApp::setup() {
 void MyApp::update() {}
 
 void MyApp::draw() {
-  cinder::gl::clear(Color(1, 0.5, 0.5));
+  cinder::gl::clear();
 
 //  csv2::Reader<delimiter<','>, quote_character<'"'>, first_row_is_header<true>> csv;
 //  std::string filename = getAssetPath("names.csv").string();
@@ -75,6 +73,7 @@ void MyApp::draw() {
 //        cell.read_value(value);
 //  }
 
+  DrawQuestionBackground();
   DrawQuestion();
 }
   void MyApp::keyDown(KeyEvent event) {
@@ -97,11 +96,20 @@ void MyApp::draw() {
 
     std::vector<std::string> quiz_question =
         setup_.retrieve_question(setup_.get_curr_question());
-    size_t row = -1;
+    size_t row = 0;
 //    PrintText("Trivia", color, size, center);
     for (std::string line : quiz_question) {
       PrintText(line, color, size, {center.x, center.y + (++row) * 50});
     }
+  }
+
+  void MyApp::DrawQuestionBackground() {
+    using cinder::gl::Texture2d;
+    using cinder::gl::Texture2dRef;
+    Texture2dRef background = Texture2d::create(loadImage(
+            loadAsset("soyouthinkyoucantrivia.jpg")));
+
+    ci::gl::draw( background, getWindowBounds() );
   }
 // namespace myapp
 }

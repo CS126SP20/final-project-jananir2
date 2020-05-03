@@ -19,6 +19,7 @@ class MyApp : public cinder::app::App {
 
  private:
   void DrawQuestion();
+  void DrawQuestionBackground();
 
  private:
   mylibrary::Setup setup_;

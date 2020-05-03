@@ -28,6 +28,28 @@
  - **4/28/20** Updated project proposal on github
     - Need to work on the following:
  
-        [ ] Fix parsing error (problem with source code)
+ 
+        [x] Fix parsing error (problem with source code)
         
-        [ ] Create method to display quiz questions and answer on screen
+        [x] Create method to display quiz questions and answer on screen
+        
+ - **4/29/20**
+    - Created class and implemented methods for setting up trivia quiz display
+    - Added logic for going back and forth on questions
+    
+ - **4/30/20** Worked on parsing error
+    - Used debugger to figure out that error was due to not being able to access file
+    - Posted on piazza for help on how to get correct filepath
+    
+ - **5/1/20** Fixed parsing error with help from piazza
+    Need to:
+    
+        [x] Fix error preventing main class from accessing helper methods
+        
+ - **5/2/20** Worked on UI
+    - Changed font and background display
+    - Still need to:
+    
+    
+        [ ] Add logic for calculating score
+        [ ] Add logic for answering questions using keyboard
