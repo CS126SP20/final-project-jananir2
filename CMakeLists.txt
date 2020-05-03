@@ -88,13 +88,12 @@ endif()
 
 # Add more CMake libraries here ...
 
-# Testing library. Header-only.
 FetchContent_Declare(
         csv2
         GIT_REPOSITORY https://github.com/p-ranav/csv2.git
 )
 
-# Adds catch2 library. This is a header only library.
+
 FetchContent_GetProperties(csv2)
 if(NOT csv2_POPULATED)
     FetchContent_Populate(csv2)
@@ -102,3 +101,17 @@ if(NOT csv2_POPULATED)
     add_library(csv2 INTERFACE)
     target_include_directories(csv2 INTERFACE ${csv2_SOURCE_DIR}/include)
 endif()
+
+# Command-line parsing library
+FetchContent_Declare(
+        gflags
+        GIT_REPOSITORY https://github.com/gflags/gflags.git
+        GIT_TAG v2.2.2
+)
+
+# Adds gflags::gflags
+FetchContent_GetProperties(gflags)
+if (NOT gflags_POPULATED)
+    FetchContent_Populate(gflags)
+    add_subdirectory(${gflags_SOURCE_DIR} ${gflags_BINARY_DIR})
+endif ()

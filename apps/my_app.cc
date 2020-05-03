@@ -6,6 +6,7 @@
 #include <cinder/gl/draw.h>
 #include <cinder/gl/gl.h>
 #include <mylibrary/setup.h>
+#include <gflags/gflags.h>
 
 namespace myapp {
 
@@ -78,12 +79,12 @@ void MyApp::draw() {
 
   void MyApp::DrawQuestion() {
     const cinder::vec2 center = getWindowCenter();
-    const cinder::ivec2 size = {1000, 500};
+    const cinder::ivec2 size = {800, 500};
     const Color color = Color::black();
 
     std::vector<std::string> quiz_question =
         setup_.retrieve_question(setup_.get_curr_question());
-    int row = -2;
+    int row = -1;
 //    PrintText("Trivia", color, size, center);
     for (std::string line : quiz_question) {
       PrintText(line, color, size, {center.x, center.y + (row++) * 100});
@@ -94,7 +95,7 @@ void MyApp::draw() {
     using cinder::gl::Texture2d;
     using cinder::gl::Texture2dRef;
     Texture2dRef background = Texture2d::create(loadImage(
-            loadAsset("soyouthinkyoucantrivia.jpg")));
+            loadAsset("quizpagetext.png")));
 
     ci::gl::draw( background, getWindowBounds() );
   }

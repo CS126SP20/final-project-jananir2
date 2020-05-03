@@ -2,6 +2,7 @@
 
 #include <cinder/app/App.h>
 #include <cinder/app/RendererGl.h>
+#include <gflags/gflags.h>
 
 #include "my_app.h"
 
