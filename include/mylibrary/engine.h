@@ -12,8 +12,8 @@ namespace mylibrary {
   class Engine {
    public:
     Engine();
-    void GetChoice(char choice, int num_question);
-    void GetCorrectAnswer();
+    void SetChoice(char choice, int num_question);
+    int CheckAnswers(int num_question);
     std::string RetrieveAnswer(int num);
     std::vector<std::string> RetrieveQuestion(int num);
     int GetCurrQuestionIndex();

@@ -29,7 +29,8 @@ const char kDifferentFont[] = "Papyrus";
 #endif
 
 MyApp::MyApp()
-    : engine_{} {}
+    : engine_{},
+      state_{GameState::kCoverPage} {}
 template <typename C>
 void PrintText(const std::string& text, const C& color,
                const cinder::ivec2& size, const cinder::vec2& loc) {
@@ -61,11 +62,20 @@ void MyApp::update() {}
 void MyApp::draw() {
   cinder::gl::clear();
 
-  DrawQuestionBackground();
-  DrawQuestion();
+  if (state_ == GameState::kCoverPage) {
+    DrawCoverPage();
+  } else {
+    DrawQuestionBackground();
+    DrawQuestion();
+  }
 }
   void MyApp::keyDown(KeyEvent event) {
     switch (event.getCode()) {
+      case KeyEvent::KEY_RETURN: {
+        if (state_ == GameState::kCoverPage) {
+          state_ = GameState::kTakingQuiz;
+        }
+      }
       case KeyEvent::KEY_RIGHT: {
         engine_.IncCurrQuestion();
         break;
@@ -75,7 +85,16 @@ void MyApp::draw() {
         break;
       }
       case KeyEvent::KEY_a: {
-        engine_.GetChoice('A', engine_.GetCurrQuestionIndex());
+        engine_.SetChoice('A', engine_.GetCurrQuestionIndex());
+      }
+      case KeyEvent::KEY_b: {
+        engine_.SetChoice('B', engine_.GetCurrQuestionIndex());
+      }
+      case KeyEvent::KEY_c: {
+        engine_.SetChoice('C', engine_.GetCurrQuestionIndex());
+      }
+      case KeyEvent::KEY_d: {
+        engine_.SetChoice('D', engine_.GetCurrQuestionIndex());
       }
     }
   }
@@ -99,6 +118,15 @@ void MyApp::draw() {
     using cinder::gl::Texture2dRef;
     Texture2dRef background = Texture2d::create(loadImage(
             loadAsset("quizpagetext.png")));
+
+    ci::gl::draw( background, getWindowBounds() );
+  }
+
+  void MyApp::DrawCoverPage() {
+    using cinder::gl::Texture2d;
+    using cinder::gl::Texture2dRef;
+    Texture2dRef background = Texture2d::create(loadImage(
+        loadAsset("coverpage.png")));
 
     ci::gl::draw( background, getWindowBounds() );
   }

@@ -36,11 +36,31 @@ void Engine::DecCurrQuestion() {
     curr_question--;
   }
 }
-void Engine::GetChoice(char choice, int num_question) {
-
+void Engine::SetChoice(char choice, int num_question) {
+  switch (choice) {
+    case 'A': user_answer[num_question] =
+          RetrieveQuestion(num_question).at(1);
+    case 'B': user_answer[num_question] =
+          RetrieveQuestion(num_question).at(2);
+    case 'C': user_answer[num_question] =
+          RetrieveQuestion(num_question).at(3);
+    case 'D': user_answer[num_question] =
+          RetrieveQuestion(num_question).at(4);
+  }
 }
+
 std::string Engine::RetrieveAnswer(int num) {
   return setup_.RetrieveAnswers().at(num);
 }
-void Engine::GetCorrectAnswer() {}
+
+int Engine::CheckAnswers(int num_question) {
+  int tally = 0;
+  for (string answer : user_answer) {
+    if (answer.compare(RetrieveAnswer(num_question))) {
+      tally++;
+    }
+  }
+  return tally/setup_.GetNumQuestions();
+}
+
 }

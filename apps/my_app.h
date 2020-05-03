@@ -9,6 +9,12 @@
 
 namespace myapp {
 
+enum class GameState {
+  kTakingQuiz,
+  kCoverPage,
+  kShowScore,
+};
+
 class MyApp : public cinder::app::App {
  public:
   MyApp();
@@ -20,6 +26,8 @@ class MyApp : public cinder::app::App {
  private:
   void DrawQuestion();
   void DrawQuestionBackground();
+  void DrawCoverPage();
+  GameState state_;
 
  private:
   mylibrary::Engine engine_;
