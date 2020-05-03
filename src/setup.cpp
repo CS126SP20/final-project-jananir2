@@ -16,6 +16,7 @@ using namespace cinder;
 
 Setup::Setup(int index) {
   curr_question = index;
+  num_questions = 0;
 }
 
 vector<vector<string>> Setup::retrieve_questions() {
@@ -38,7 +39,7 @@ vector<vector<string>> Setup::retrieve_questions() {
       questions.push_back(question);
     }
   }
-
+  num_questions = questions.size();
   return questions;
 }
 
@@ -50,7 +51,15 @@ int Setup::get_curr_question() {
   return curr_question;
 }
 
-void Setup::inc_curr_question() { curr_question++; }
-void Setup::dec_curr_question() { curr_question--; }
+void Setup::inc_curr_question() {
+  if (curr_question < num_questions) {
+    curr_question++;
+  }
+}
+void Setup::dec_curr_question() {
+  if (curr_question > 0) {
+    curr_question--;
+  }
+}
 
 } // namespace mylibrary

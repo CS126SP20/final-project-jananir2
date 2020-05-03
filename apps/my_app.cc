@@ -60,19 +60,6 @@ void MyApp::update() {}
 void MyApp::draw() {
   cinder::gl::clear();
 
-//  csv2::Reader<delimiter<','>, quote_character<'"'>, first_row_is_header<true>> csv;
-//  std::string filename = getAssetPath("names.csv").string();
-//  if (csv.mmap(filename)) {
-//    const auto header = csv.header();
-//    cinder::gl::clear(Color(.6, .1, .5));
-//    std::string value;
-//        auto row_iter = csv.begin();
-//        auto row = *row_iter;
-//        auto cell_iter = row.begin();
-//        auto cell = *cell_iter;
-//        cell.read_value(value);
-//  }
-
   DrawQuestionBackground();
   DrawQuestion();
 }
@@ -96,10 +83,10 @@ void MyApp::draw() {
 
     std::vector<std::string> quiz_question =
         setup_.retrieve_question(setup_.get_curr_question());
-    size_t row = 0;
+    int row = -2;
 //    PrintText("Trivia", color, size, center);
     for (std::string line : quiz_question) {
-      PrintText(line, color, size, {center.x, center.y + (++row) * 50});
+      PrintText(line, color, size, {center.x, center.y + (row++) * 100});
     }
   }
 

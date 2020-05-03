@@ -22,6 +22,7 @@ class Setup {
 
  private:
   int curr_question;
+  int num_questions;
 };
 
 }
