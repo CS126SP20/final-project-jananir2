@@ -27,8 +27,7 @@
         
  - **4/28/20** Updated project proposal on github
     - Need to work on the following:
- 
- 
+  
         [x] Fix parsing error (problem with source code)
         
         [x] Create method to display quiz questions and answer on screen
@@ -44,12 +43,22 @@
  - **5/1/20** Fixed parsing error with help from piazza
     Need to:
     
-        [x] Fix error preventing main class from accessing helper methods
+      [x] Fix error preventing main class from accessing helper methods
         
  - **5/2/20** Worked on UI
     - Changed font and background display
     - Still need to:
     
-    
         [ ] Add logic for calculating score
-        [ ] Add logic for answering questions using keyboard
+        
+        [x] Add logic for answering questions using keyboard   
+             
+ - **5/3/20** Completed logic for taking in users' answers
+    - Completed command line component where user can pass in their own quiz file
+    - Added cover page and results page
+    - Almost done with score calculation method
+    - Still need to:
+    
+        [ ] Fix error where only choice D is selected
+        
+        [ ] Add logic fo italicizing selected questions
