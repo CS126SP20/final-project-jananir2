@@ -33,9 +33,8 @@ class MyApp : public cinder::app::App {
 
  private:
   void DrawQuestion();
-  void DrawQuestionBackground();
+  void DrawBackground();
   void DrawChooseQuiz();
-  void DrawCoverPage();
   void DrawResultsPage();
   GameState state_;
 

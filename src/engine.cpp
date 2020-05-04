@@ -22,6 +22,7 @@ vector<string> Engine::RetrieveQuestion(int num) {
   vector<vector<string>> questions = setup_.RetrieveQuestions();
   return questions.at(num);
 }
+
 int Engine::GetCurrQuestionIndex() {
   return curr_question;
 }
@@ -67,12 +68,14 @@ bool Engine::CheckIsLastQuestion () {
 bool Engine::CheckIsSelected (int choice) {
   bool isSelected = false;
   for (const string& user_ans : user_answer) {
-    if (!user_ans.empty() && RetrieveQuestion(curr_question).at(choice).find(user_ans) != std::string::npos) {
+    if (RetrieveQuestion(curr_question).at(choice).find(user_ans)
+          != std::string::npos) {
       isSelected = true;
     }
   }
   return isSelected;
 }
+
 void Engine::HandleQuizChoice(int choice) {
   switch (choice) {
     case 1: {

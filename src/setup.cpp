@@ -19,13 +19,16 @@ Setup::Setup() { }
 int Setup::GetNumQuestions() { return questions.size(); }
 
 void Setup::PopulateQAvectors(string file) {
+  csv2::Reader<delimiter<','>, quote_character<'"'>,
+      first_row_is_header<true>> csv;
 
-  csv2::Reader<delimiter<','>, quote_character<'"'>, first_row_is_header<true>> csv;
   std::string filename = cinder::app::getAssetPath(file).string();
   vector<string> question;
   std::string value;
+
   if (csv.mmap(filename)) {
     const auto header = csv.header();
+
     for (auto row : csv) {
       question.clear();
       for (auto cell : row) {
@@ -33,6 +36,7 @@ void Setup::PopulateQAvectors(string file) {
         cell.read_value(value);
         question.push_back(value);
       }
+
       answers.push_back(question.back());
       question.pop_back();
       questions.push_back(question);
