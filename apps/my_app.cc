@@ -91,21 +91,27 @@ void MyApp::draw() {
       }
       case KeyEvent::KEY_a: {
         engine_.SetChoice(1);
+        break;
       }
       case KeyEvent::KEY_b: {
         engine_.SetChoice(2);
+        break;
       }
       case KeyEvent::KEY_c: {
         engine_.SetChoice(3);
+        break;
       }
       case KeyEvent::KEY_d: {
         engine_.SetChoice(4);
+        break;
       }
       case KeyEvent::KEY_RETURN: {
         if (engine_.CheckIsLastQuestion()) {
           state_ = GameState::kShowScore;
+          break;
         } else {
-        state_ = GameState::kTakingQuiz;
+          state_ = GameState::kTakingQuiz;
+          break;
         }
       }
     }
@@ -124,6 +130,8 @@ void MyApp::draw() {
     for (std::string line : quiz_question) {
       if (line_index == 0) {
         PrintText(line, color, size, {center.x, center.y + (row++) * 100}, FontState::kBold);
+      } else if (engine_.CheckIsSelected(line_index)) {
+        PrintText(line, color, size, {center.x, center.y + (row++) * 100}, FontState::kItalic);
       } else {
         PrintText(line, color, size, {center.x, center.y + (row++) * 100}, FontState::kRegular);
       }

@@ -20,7 +20,7 @@ namespace mylibrary {
     void IncCurrQuestion();
     bool CheckIsLastQuestion ();
     bool CheckIsSelected(int choice);
-    double Engine::GetScore();
+    double GetScore();
 
    private:
     double CheckAnswers();

@@ -37,20 +37,7 @@ void Engine::DecCurrQuestion() {
   }
 }
 void Engine::SetChoice(int choice) {
-  switch (choice) {
-    case 1: {
-      user_answer[curr_question] = RetrieveQuestion(curr_question).at(1);
-    }
-    case 2: {
-      user_answer[curr_question] = RetrieveQuestion(curr_question).at(2);
-    }
-    case 3: {
-      user_answer[curr_question] = RetrieveQuestion(curr_question).at(3);
-    }
-    case 4: {
-      user_answer[curr_question] = RetrieveQuestion(curr_question).at(4);
-    }
-  }
+  user_answer[curr_question] = RetrieveQuestion(curr_question).at(choice);
 }
 
 std::string Engine::RetrieveAnswer(int num) {
