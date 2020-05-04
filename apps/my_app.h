@@ -15,6 +15,11 @@ enum class GameState {
   kShowScore,
 };
 
+enum class FontState {
+  kRegular,
+  kSelected,
+};
+
 class MyApp : public cinder::app::App {
  public:
   MyApp();
@@ -27,6 +32,7 @@ class MyApp : public cinder::app::App {
   void DrawQuestion();
   void DrawQuestionBackground();
   void DrawCoverPage();
+  void DrawResultsPage();
   GameState state_;
 
  private:

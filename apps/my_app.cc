@@ -33,10 +33,10 @@ MyApp::MyApp()
       state_{GameState::kCoverPage} {}
 template <typename C>
 void PrintText(const std::string& text, const C& color,
-               const cinder::ivec2& size, const cinder::vec2& loc) {
+               const cinder::ivec2& size, const cinder::vec2& loc, FontState font_state) {
   cinder::TextBox box = TextBox()
                  .alignment(TextBox::CENTER)
-                 .font(cinder::Font(cinder::app::loadAsset("Hey Fun.ttf"), 15.0))
+                 .font(cinder::Font(cinder::app::loadAsset("BubaDEMO-Outline.otf"), 15.0))
                  .size(size)
                  .color(color)
                  .backgroundColor(ColorA(0, 0, 0, 0))
@@ -64,18 +64,14 @@ void MyApp::draw() {
 
   if (state_ == GameState::kCoverPage) {
     DrawCoverPage();
-  } else {
-    DrawQuestionBackground();
+  } else if (state_ == GameState::kTakingQuiz) {
     DrawQuestion();
+  } else {
+    DrawResultsPage();
   }
 }
   void MyApp::keyDown(KeyEvent event) {
     switch (event.getCode()) {
-      case KeyEvent::KEY_RETURN: {
-        if (state_ == GameState::kCoverPage) {
-          state_ = GameState::kTakingQuiz;
-        }
-      }
       case KeyEvent::KEY_RIGHT: {
         engine_.IncCurrQuestion();
         break;
@@ -85,21 +81,29 @@ void MyApp::draw() {
         break;
       }
       case KeyEvent::KEY_a: {
-        engine_.SetChoice('A', engine_.GetCurrQuestionIndex());
+        engine_.SetChoice(1);
       }
       case KeyEvent::KEY_b: {
-        engine_.SetChoice('B', engine_.GetCurrQuestionIndex());
+        engine_.SetChoice(2);
       }
       case KeyEvent::KEY_c: {
-        engine_.SetChoice('C', engine_.GetCurrQuestionIndex());
+        engine_.SetChoice(3);
       }
       case KeyEvent::KEY_d: {
-        engine_.SetChoice('D', engine_.GetCurrQuestionIndex());
+        engine_.SetChoice(4);
+      }
+      case KeyEvent::KEY_RETURN: {
+        if (engine_.CheckIsLastQuestion()) {
+          state_ = GameState::kShowScore;
+        } else {
+        state_ = GameState::kTakingQuiz;
+        }
       }
     }
   }
 
   void MyApp::DrawQuestion() {
+    DrawQuestionBackground();
     const cinder::vec2 center = getWindowCenter();
     const cinder::ivec2 size = {800, 500};
     const Color color = Color::black();
@@ -107,10 +111,15 @@ void MyApp::draw() {
     std::vector<std::string> quiz_question =
         engine_.RetrieveQuestion(engine_.GetCurrQuestionIndex());
     int row = -1;
-//    PrintText("Trivia", color, size, center);
     for (std::string line : quiz_question) {
-      PrintText(line, color, size, {center.x, center.y + (row++) * 100});
+      PrintText(line, color, size, {center.x, center.y + (row++) * 100}, FontState::kRegular);
     }
+    if (engine_.CheckIsLastQuestion()) {
+      PrintText("Press ENTER to view results",
+                Color(1, 0, 0), size, {center.x, center.y + (row++) * 100}, FontState::kRegular);
+    }
+    PrintText(std::to_string(engine_.GetCurrQuestionIndex()),
+              Color(1, 0, 0), size, {center.x, center.y + (row++) * 100}, FontState::kRegular);
   }
 
   void MyApp::DrawQuestionBackground() {
@@ -129,6 +138,17 @@ void MyApp::draw() {
         loadAsset("coverpage.png")));
 
     ci::gl::draw( background, getWindowBounds() );
+  }
+
+  void MyApp::DrawResultsPage() {
+    DrawQuestionBackground();
+    const cinder::vec2 center = getWindowCenter();
+    const cinder::ivec2 size = {1000, 500};
+    const Color color = Color::black();
+    PrintText("Results",
+              color, size, {center.x, center.y - 100}, FontState::kRegular);
+    PrintText(std::to_string(engine_.GetScore()) + "%",
+              color, size, {center.x, center.y}, FontState::kRegular);
   }
 // namespace myapp
 }

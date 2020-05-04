@@ -12,13 +12,17 @@ namespace mylibrary {
   class Engine {
    public:
     Engine();
-    void SetChoice(char choice, int num_question);
-    int CheckAnswers(int num_question);
+    void SetChoice(int choice);
     std::string RetrieveAnswer(int num);
     std::vector<std::string> RetrieveQuestion(int num);
     int GetCurrQuestionIndex();
     void DecCurrQuestion();
     void IncCurrQuestion();
+    bool Engine::CheckIsLastQuestion ();
+    double Engine::GetScore();
+
+   private:
+    double CheckAnswers();
 
    public:
     Setup setup_;

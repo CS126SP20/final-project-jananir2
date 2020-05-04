@@ -4,12 +4,12 @@
 
 #include <catch2/catch.hpp>
 #include <cinder/Rand.h>
+#include <mylibrary/setup.h>
 
-#include <mylibrary/example.h>
+#include <mylibrary/engine.h>
 
 
-TEST_CASE("Random sanity test", "[random]") {
-  const float random = cinder::randFloat();
-  REQUIRE(0. <= random);
-  REQUIRE(random <= 1.);
+TEST_CASE("Check Equality", "[game]") {
+  mylibrary::Engine engine_{};
+
 }
