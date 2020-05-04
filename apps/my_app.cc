@@ -29,10 +29,12 @@ const char kDifferentFont[] = "Papyrus";
 #endif
 
 DECLARE_uint32(size);
-DECLARE_string(filename);
+DECLARE_string(filename1);
+DECLARE_string(filename2);
+DECLARE_string(filename3);
 
 MyApp::MyApp()
-    : engine_{FLAGS_filename},
+    : engine_{FLAGS_filename1, FLAGS_filename2, FLAGS_filename3},
       state_{GameState::kCoverPage} {}
 template <typename C>
 void PrintText(const std::string& text, const C& color,
@@ -75,6 +77,8 @@ void MyApp::draw() {
     DrawCoverPage();
   } else if (state_ == GameState::kTakingQuiz) {
     DrawQuestion();
+  } else if (state_ == GameState::kChoosingQuiz) {
+    DrawChooseQuiz();
   } else {
     DrawResultsPage();
   }
@@ -110,9 +114,24 @@ void MyApp::draw() {
           state_ = GameState::kShowScore;
           break;
         } else {
-          state_ = GameState::kTakingQuiz;
+          state_ = GameState::kChoosingQuiz;
           break;
         }
+      }
+      case KeyEvent::KEY_1: {
+        engine_.HandleQuizChoice(1);
+        state_ = GameState::kTakingQuiz;
+        break;
+      }
+      case KeyEvent::KEY_2: {
+        engine_.HandleQuizChoice(2);
+        state_ = GameState::kTakingQuiz;
+        break;
+      }
+      case KeyEvent::KEY_3: {
+        engine_.HandleQuizChoice(3);
+        state_ = GameState::kTakingQuiz;
+        break;
       }
     }
   }
@@ -174,6 +193,21 @@ void MyApp::draw() {
               color, size, {center.x, center.y - 100}, FontState::kBold);
     PrintText(std::to_string(engine_.GetScore()) + "%",
               color, size, {center.x, center.y}, FontState::kRegular);
+  }
+
+  void MyApp::DrawChooseQuiz() {
+    DrawQuestionBackground();
+    const cinder::vec2 center = getWindowCenter();
+    const cinder::ivec2 size = {800, 500};
+    const Color color = Color::black();
+
+    int row = -1;
+    PrintText("Enter the number of the quiz you want to take",
+              Color(1, 0, 1), size, {center.x, center.y + (row++) * 100}, FontState::kBold);
+    for (int i = 1; i <= 3; i++) {
+      PrintText("Quiz " + std::to_string(i),
+                Color(1, 0, 1), size, {center.x, center.y + (row++) * 100}, FontState::kRegular);
+    }
   }
 // namespace myapp
 }

@@ -14,9 +14,7 @@ using namespace std;
 using namespace csv2;
 using namespace cinder;
 
-Setup::Setup(string file) {
-  PopulateQAvectors(file);
-}
+Setup::Setup() { }
 
 int Setup::GetNumQuestions() { return questions.size(); }
 

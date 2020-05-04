@@ -10,12 +10,12 @@ namespace mylibrary {
 
 using namespace std;
 
-Engine::Engine(string filename)
-    : setup_{filename},
+Engine::Engine(string file1, string file2, string file3)
+    : setup_{},
       curr_question{0} {
-  for (int i = 0; i < setup_.GetNumQuestions(); i++) {
-    user_answer.push_back("--------");
-  }
+  filename1 = file1;
+  filename2 = file2;
+  filename3 = file3;
 }
 
 vector<string> Engine::RetrieveQuestion(int num) {
@@ -52,7 +52,7 @@ double Engine::CheckAnswers() {
   int question_num = 0;
   double tally = 0;
   for (const string& user_ans : user_answer) {
-    if (RetrieveAnswer(question_num).find(user_ans) != std::string::npos) { //strcmp(user_ans.c_str(), RetrieveAnswer(question_num).c_str()) == 0) {
+    if (RetrieveAnswer(question_num).find(user_ans) != std::string::npos) {
       tally++;
     }
     question_num++;
@@ -72,6 +72,25 @@ bool Engine::CheckIsSelected (int choice) {
     }
   }
   return isSelected;
+}
+void Engine::HandleQuizChoice(int choice) {
+  switch (choice) {
+    case 1: {
+      setup_.PopulateQAvectors(filename1);
+      break;
+    }
+    case 2: {
+      setup_.PopulateQAvectors(filename2);
+      break;
+    }
+    case 3: {
+      setup_.PopulateQAvectors(filename3);
+      break;
+    }
+  }
+  for (int i = 0; i < setup_.GetNumQuestions(); i++) {
+    user_answer.push_back("-----------");
+  }
 }
 
 }

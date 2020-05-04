@@ -11,7 +11,7 @@ namespace mylibrary {
 
 class Setup {
  public:
-  Setup(std::string file);
+  Setup();
   int GetNumQuestions();
   void PopulateQAvectors(std::string file);
   std::vector<std::vector<std::string>> RetrieveQuestions();
