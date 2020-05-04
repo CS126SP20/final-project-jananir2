@@ -5,6 +5,7 @@
 
 #include <cinder/app/App.h>
 #include <mylibrary/engine.h>
+#include <gflags/gflags.h>
 
 
 namespace myapp {
@@ -17,7 +18,8 @@ enum class GameState {
 
 enum class FontState {
   kRegular,
-  kSelected,
+  kBold,
+  kItalic,
 };
 
 class MyApp : public cinder::app::App {

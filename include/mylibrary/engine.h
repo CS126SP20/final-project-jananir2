@@ -11,14 +11,15 @@
 namespace mylibrary {
   class Engine {
    public:
-    Engine();
+    Engine(std::string filename);
     void SetChoice(int choice);
     std::string RetrieveAnswer(int num);
     std::vector<std::string> RetrieveQuestion(int num);
     int GetCurrQuestionIndex();
     void DecCurrQuestion();
     void IncCurrQuestion();
-    bool Engine::CheckIsLastQuestion ();
+    bool CheckIsLastQuestion ();
+    bool CheckIsSelected(int choice);
     double Engine::GetScore();
 
    private:

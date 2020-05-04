@@ -10,16 +10,16 @@ namespace mylibrary {
 
 using namespace std;
 
-Engine::Engine()
-    : setup_{},
+Engine::Engine(string filename)
+    : setup_{filename},
       curr_question{0} {
   for (int i = 0; i < setup_.GetNumQuestions(); i++) {
-    user_answer.push_back("");
+    user_answer.push_back("--------");
   }
 }
 
 vector<string> Engine::RetrieveQuestion(int num) {
-  std::vector<std::vector<std::string>> questions = setup_.RetrieveQuestions();
+  vector<vector<string>> questions = setup_.RetrieveQuestions();
   return questions.at(num);
 }
 int Engine::GetCurrQuestionIndex() {
@@ -38,14 +38,18 @@ void Engine::DecCurrQuestion() {
 }
 void Engine::SetChoice(int choice) {
   switch (choice) {
-    case 1: user_answer[curr_question] = "hello";
-//          RetrieveQuestion(curr_question).at(1);
-    case 2: user_answer[curr_question] =
-          RetrieveQuestion(curr_question).at(2);
-    case 3: user_answer[curr_question] =
-          RetrieveQuestion(curr_question).at(3);
-    case 4: user_answer[curr_question] =
-          RetrieveQuestion(curr_question).at(4);
+    case 1: {
+      user_answer[curr_question] = RetrieveQuestion(curr_question).at(1);
+    }
+    case 2: {
+      user_answer[curr_question] = RetrieveQuestion(curr_question).at(2);
+    }
+    case 3: {
+      user_answer[curr_question] = RetrieveQuestion(curr_question).at(3);
+    }
+    case 4: {
+      user_answer[curr_question] = RetrieveQuestion(curr_question).at(4);
+    }
   }
 }
 
@@ -61,7 +65,7 @@ double Engine::CheckAnswers() {
   int question_num = 0;
   double tally = 0;
   for (const string& user_ans : user_answer) {
-    if (!user_ans.empty() && RetrieveAnswer(question_num).find(user_ans) != std::string::npos) { //strcmp(user_ans.c_str(), RetrieveAnswer(question_num).c_str()) == 0) {
+    if (RetrieveAnswer(question_num).find(user_ans) != std::string::npos) { //strcmp(user_ans.c_str(), RetrieveAnswer(question_num).c_str()) == 0) {
       tally++;
     }
     question_num++;
@@ -71,6 +75,16 @@ double Engine::CheckAnswers() {
 
 bool Engine::CheckIsLastQuestion () {
   return curr_question == setup_.GetNumQuestions() - 1;
+}
+
+bool Engine::CheckIsSelected (int choice) {
+  bool isSelected = false;
+  for (const string& user_ans : user_answer) {
+    if (!user_ans.empty() && RetrieveQuestion(curr_question).at(choice).find(user_ans) != std::string::npos) {
+      isSelected = true;
+    }
+  }
+  return isSelected;
 }
 
 }

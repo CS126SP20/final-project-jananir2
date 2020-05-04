@@ -14,16 +14,16 @@ using namespace std;
 using namespace csv2;
 using namespace cinder;
 
-Setup::Setup() {
-  PopulateQAvectors();
+Setup::Setup(string file) {
+  PopulateQAvectors(file);
 }
 
 int Setup::GetNumQuestions() { return questions.size(); }
 
-void Setup::PopulateQAvectors() {
+void Setup::PopulateQAvectors(string file) {
 
   csv2::Reader<delimiter<','>, quote_character<'"'>, first_row_is_header<true>> csv;
-  std::string filename = cinder::app::getAssetPath("names.csv").string();
+  std::string filename = cinder::app::getAssetPath(file).string();
   vector<string> question;
   std::string value;
   if (csv.mmap(filename)) {
@@ -31,7 +31,7 @@ void Setup::PopulateQAvectors() {
     for (auto row : csv) {
       question.clear();
       for (auto cell : row) {
-        value = "";
+        value.clear();
         cell.read_value(value);
         question.push_back(value);
       }

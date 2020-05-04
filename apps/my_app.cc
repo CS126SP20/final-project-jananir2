@@ -28,15 +28,24 @@ const char kBoldFont[] = "Arial Bold";
 const char kDifferentFont[] = "Papyrus";
 #endif
 
+DECLARE_uint32(size);
+DECLARE_string(filename);
+
 MyApp::MyApp()
-    : engine_{},
+    : engine_{FLAGS_filename},
       state_{GameState::kCoverPage} {}
 template <typename C>
 void PrintText(const std::string& text, const C& color,
                const cinder::ivec2& size, const cinder::vec2& loc, FontState font_state) {
+  cinder::Font font = cinder::Font(cinder::app::loadAsset("BurstMyBubble.ttf"), 20.0);
+  if (font_state == FontState::kBold) {
+    font = cinder::Font(cinder::app::loadAsset("BurstMyBubbleBold.ttf"), 20.0);
+  } else if (font_state == FontState::kItalic) {
+    font = cinder::Font(cinder::app::loadAsset("BurstMyBubbleItalic.ttf"), 20.0);
+  }
   cinder::TextBox box = TextBox()
                  .alignment(TextBox::CENTER)
-                 .font(cinder::Font(cinder::app::loadAsset("BubaDEMO-Outline.otf"), 15.0))
+                 .font(font)
                  .size(size)
                  .color(color)
                  .backgroundColor(ColorA(0, 0, 0, 0))
@@ -111,14 +120,22 @@ void MyApp::draw() {
     std::vector<std::string> quiz_question =
         engine_.RetrieveQuestion(engine_.GetCurrQuestionIndex());
     int row = -1;
+    int line_index = 0;
     for (std::string line : quiz_question) {
-      PrintText(line, color, size, {center.x, center.y + (row++) * 100}, FontState::kRegular);
+      if (line_index == 0) {
+        PrintText(line, color, size, {center.x, center.y + (row++) * 100}, FontState::kBold);
+      } else {
+        PrintText(line, color, size, {center.x, center.y + (row++) * 100}, FontState::kRegular);
+      }
+      line_index++;
     }
     if (engine_.CheckIsLastQuestion()) {
       PrintText("Press ENTER to view results",
-                Color(1, 0, 0), size, {center.x, center.y + (row++) * 100}, FontState::kRegular);
+                Color(1, 0, 0), size, {center.x, center.y + (row++) * 100}, FontState::kBold);
+    } else {
+      row++;
     }
-    PrintText(std::to_string(engine_.GetCurrQuestionIndex()),
+    PrintText(std::to_string(engine_.GetCurrQuestionIndex() + 1),
               Color(1, 0, 0), size, {center.x, center.y + (row++) * 100}, FontState::kRegular);
   }
 
@@ -143,10 +160,10 @@ void MyApp::draw() {
   void MyApp::DrawResultsPage() {
     DrawQuestionBackground();
     const cinder::vec2 center = getWindowCenter();
-    const cinder::ivec2 size = {1000, 500};
+    const cinder::ivec2 size = {800, 500};
     const Color color = Color::black();
     PrintText("Results",
-              color, size, {center.x, center.y - 100}, FontState::kRegular);
+              color, size, {center.x, center.y - 100}, FontState::kBold);
     PrintText(std::to_string(engine_.GetScore()) + "%",
               color, size, {center.x, center.y}, FontState::kRegular);
   }
