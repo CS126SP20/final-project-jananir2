@@ -26,9 +26,10 @@ MyApp::MyApp()
 
 template <typename C>
 void PrintText(const std::string& text, const C& color,
-               const cinder::ivec2& size, const cinder::vec2& loc, FontState font_state) {
-  cinder::Font font = cinder::Font(
-      cinder::app::loadAsset("SFCartoonistHand.ttf"), 20.0);
+               const cinder::ivec2& size, const cinder::vec2& loc,
+               FontState font_state) {
+  cinder::Font font = cinder::Font(cinder::app::loadAsset(
+                                   "SFCartoonistHand.ttf"), 20.0);
   if (font_state == FontState::kBoldCaps) {
     font = cinder::Font(cinder::app::loadAsset(
                             "SFCartoonistHandSC-Bold.ttf"), 20.0);
@@ -37,7 +38,7 @@ void PrintText(const std::string& text, const C& color,
         "SFCartoonistHandSC.ttf"), 20.0);
   } else if (font_state == FontState::kBoldItalic) {
     font = cinder::Font(cinder::app::loadAsset(
-                            "SFCartoonistHand-BoldItalic.ttf"), 20.0);
+                        "SFCartoonistHand-BoldItalic.ttf"), 20.0);
   }
 
   cinder::TextBox box = TextBox()
@@ -156,13 +157,14 @@ void MyApp::DrawQuestion() {
               Color(1, 0, 0), size,
               {center.x, center.y + (row++) * 100},
               FontState::kBoldCaps);
-  } else {
+  } else if (engine_.RetrieveQuestion(
+                        engine_.GetCurrQuestionIndex()).size() != 1) {
     row++;
+    PrintText(std::to_string(engine_.GetCurrQuestionIndex() + 1),
+              Color(1, 0, 0), size,
+              {center.x, center.y + (row++) * 100},
+              FontState::kRegular);
   }
-  PrintText(std::to_string(engine_.GetCurrQuestionIndex() + 1),
-            Color(1, 0, 0), size,
-            {center.x, center.y + (row++) * 100},
-            FontState::kRegular);
 }
 
 void MyApp::DrawBackground() {
@@ -182,7 +184,7 @@ void MyApp::DrawResultsPage() {
   const Color color = Color::black();
   PrintText("Results", color, size, {center.x, center.y - 100},
             FontState::kBoldCaps);
-  PrintText("You scored " + std::to_string(engine_.GetScore()) + "%!",
+  PrintText("You scored " + std::to_string(int(engine_.GetScore())) + "%!",
             color, size, {center.x, center.y}, FontState::kRegular);
 }
 

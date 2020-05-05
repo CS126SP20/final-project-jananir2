@@ -59,6 +59,17 @@
     - Almost done with score calculation method
     - Still need to:
     
-        [ ] Fix error where only choice D is selected
+        [x] Fix error where only choice D is selected
         
-        [ ] Add logic fo italicizing selected questions
+        [x] Add logic fo italicizing selected questions
+        
+ - **5/3/20** Completed application and began testing
+    - Added feature where user can enter their own quiz csv file(s)
+    - Added feature where user can choose which quiz to take
+    - Need to:
+    
+        [ ] Finish testing
+        
+        [ ] Complete README.md
+        
+        [ ] Add documentation using comments
