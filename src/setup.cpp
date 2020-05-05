@@ -14,7 +14,9 @@ using namespace std;
 using namespace csv2;
 using namespace cinder;
 
-Setup::Setup() { }
+Setup::Setup() {
+  is_valid = true;
+}
 
 int Setup::GetNumQuestions() { return questions.size(); }
 
@@ -41,6 +43,10 @@ void Setup::PopulateQAvectors(string file) {
       question.pop_back();
       questions.push_back(question);
     }
+  } else {
+    answers.push_back("Invalid file provided");
+    questions.push_back(answers);
+    is_valid = false;
   }
 
 }
@@ -52,5 +58,6 @@ vector<vector<string>> Setup::RetrieveQuestions() {
 vector<string> Setup::RetrieveAnswers() {
   return answers;
 }
+bool Setup::CheckIsValid() { return is_valid; }
 
 } // namespace mylibrary

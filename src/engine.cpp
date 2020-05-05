@@ -62,7 +62,7 @@ double Engine::CheckAnswers() {
 }
 
 bool Engine::CheckIsLastQuestion () {
-  return curr_question == setup_.GetNumQuestions() - 1;
+  return setup_.CheckIsValid() && curr_question == setup_.GetNumQuestions() - 1;
 }
 
 bool Engine::CheckIsSelected (int choice) {

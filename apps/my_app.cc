@@ -134,17 +134,17 @@ void MyApp::DrawQuestion() {
 
   int line_index = 0;
   int row = line_index - 1;
+  FontState curr_font;
   for (std::string line : quiz_question) {
     if (line_index == 0) {
-      PrintText(line, color, size, {center.x, center.y + (row++) * 100},
-                FontState::kBold);
+      curr_font = FontState::kBold;
     } else if (engine_.CheckIsSelected(line_index)) {
-      PrintText(line, color, size, {center.x, center.y + (row++) * 100},
-                FontState::kItalic);
+      curr_font = FontState::kItalic;
     } else {
-      PrintText(line, color, size, {center.x, center.y + (row++) * 100},
-                FontState::kRegular);
+      curr_font = FontState::kRegular;
     }
+    PrintText(line, color, size, {center.x, center.y + (row++) * 100},
+              curr_font);
     line_index++;
   }
 
