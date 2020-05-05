@@ -42,7 +42,6 @@ TEST_CASE("Check Setup methods for regular file", "[simplefile]") {
   SECTION("Check is valid") {
     REQUIRE(setup_.CheckIsValid());
   }
-
 }
 
 TEST_CASE("Check Setup methods for invalid filepath", "[nonexistent file]") {
@@ -69,5 +68,4 @@ TEST_CASE("Check Setup methods for invalid filepath", "[nonexistent file]") {
   SECTION("Check is not valid") {
     REQUIRE(!setup_.CheckIsValid());
   }
-
 }

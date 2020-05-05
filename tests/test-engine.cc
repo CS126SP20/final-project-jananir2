@@ -8,28 +8,32 @@
 using namespace std;
 
 
-TEST_CASE("Test handles quiz choice correctly", "[retrieve question]") {
+TEST_CASE("Test handles quiz choice correctly",
+          "[retrieve question][retrieve answer]") {
   mylibrary::Engine engine_{"quiz1.csv", "quiz2.csv", "quiz3.csv"};
   engine_.HandleQuizChoice(1);
-  vector<string> test_question;
 
-  test_question.push_back(
-      "What was the name of the band Lionel Richie was a part of?");
-  test_question.push_back("A) King Harvest");
-  test_question.push_back("B) Spectrums");
-  test_question.push_back("C) Commodores");
-  test_question.push_back("D) The Marshall Tucker Band");
+  SECTION("Test retrieve question") {
+    vector<string> test_question;
 
-  REQUIRE(engine_.RetrieveQuestion(4) == test_question);
+    test_question.push_back(
+        "What was the name of the band Lionel Richie was a part of?");
+    test_question.push_back("A) King Harvest");
+    test_question.push_back("B) Spectrums");
+    test_question.push_back("C) Commodores");
+    test_question.push_back("D) The Marshall Tucker Band");
+
+    REQUIRE(engine_.RetrieveQuestion(4) == test_question);
+  }
+
+  SECTION("Test retrieve answer") {
+    REQUIRE(engine_.RetrieveAnswer(4).find("C) Commodores") != string::npos);
+  }
 }
 
 TEST_CASE("Test current index of function", "[increase][decrease]") {
   mylibrary::Engine engine_{"quiz1.csv", "quiz2.csv", "quiz3.csv"};
   engine_.HandleQuizChoice(2);
-
-  SECTION("Test starting index") {
-    REQUIRE(engine_.GetCurrQuestionIndex() == 0);
-  }
 
   SECTION("Test increase index by two") {
     engine_.IncCurrQuestion();

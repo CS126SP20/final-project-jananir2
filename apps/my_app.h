@@ -19,8 +19,9 @@ enum class GameState {
 
 enum class FontState {
   kRegular,
-  kBold,
-  kItalic,
+  kCaps,
+  kBoldCaps,
+  kBoldItalic,
 };
 
 class MyApp : public cinder::app::App {

@@ -28,13 +28,16 @@ template <typename C>
 void PrintText(const std::string& text, const C& color,
                const cinder::ivec2& size, const cinder::vec2& loc, FontState font_state) {
   cinder::Font font = cinder::Font(
-      cinder::app::loadAsset("BurstMyBubble.ttf"), 20.0);
-  if (font_state == FontState::kBold) {
+      cinder::app::loadAsset("SFCartoonistHand.ttf"), 20.0);
+  if (font_state == FontState::kBoldCaps) {
     font = cinder::Font(cinder::app::loadAsset(
-                            "BurstMyBubbleBold.ttf"), 20.0);
-  } else if (font_state == FontState::kItalic) {
+                            "SFCartoonistHandSC-Bold.ttf"), 20.0);
+  } else if (font_state == FontState::kCaps) {
     font = cinder::Font(cinder::app::loadAsset(
-                            "BurstMyBubbleItalic.ttf"), 20.0);
+        "SFCartoonistHandSC.ttf"), 20.0);
+  } else if (font_state == FontState::kBoldItalic) {
+    font = cinder::Font(cinder::app::loadAsset(
+                            "SFCartoonistHand-BoldItalic.ttf"), 20.0);
   }
 
   cinder::TextBox box = TextBox()
@@ -137,9 +140,9 @@ void MyApp::DrawQuestion() {
   FontState curr_font;
   for (std::string line : quiz_question) {
     if (line_index == 0) {
-      curr_font = FontState::kBold;
+      curr_font = FontState::kCaps;
     } else if (engine_.CheckIsSelected(line_index)) {
-      curr_font = FontState::kItalic;
+      curr_font = FontState::kBoldItalic;
     } else {
       curr_font = FontState::kRegular;
     }
@@ -152,7 +155,7 @@ void MyApp::DrawQuestion() {
     PrintText("Press ENTER to view results",
               Color(1, 0, 0), size,
               {center.x, center.y + (row++) * 100},
-              FontState::kBold);
+              FontState::kBoldCaps);
   } else {
     row++;
   }
@@ -178,7 +181,7 @@ void MyApp::DrawResultsPage() {
   const cinder::ivec2 size = {800, 500};
   const Color color = Color::black();
   PrintText("Results", color, size, {center.x, center.y - 100},
-            FontState::kBold);
+            FontState::kBoldCaps);
   PrintText("You scored " + std::to_string(engine_.GetScore()) + "%!",
             color, size, {center.x, center.y}, FontState::kRegular);
 }
@@ -192,7 +195,7 @@ void MyApp::DrawChooseQuiz() {
     if (i == 0) {
       PrintText("Enter the number of the quiz you want to take",
                 Color(1, .2, 1), size, {center.x, center.y},
-                FontState::kBold);
+                FontState::kBoldCaps);
     }
     else {
       PrintText("Quiz " + std::to_string(i),
