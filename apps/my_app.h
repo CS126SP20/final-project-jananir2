@@ -15,6 +15,7 @@ enum class GameState {
   kChoosingQuiz,
   kCoverPage,
   kShowScore,
+  kInvalid,
 };
 
 enum class FontState {
@@ -37,6 +38,7 @@ class MyApp : public cinder::app::App {
   void DrawBackground();
   void DrawChooseQuiz();
   void DrawResultsPage();
+  void DrawInvalid();
   GameState state_;
 
  private:

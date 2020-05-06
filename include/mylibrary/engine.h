@@ -22,6 +22,7 @@ namespace mylibrary {
     bool CheckIsSelected(int choice);
     double GetScore();
     void HandleQuizChoice(int choice);
+    bool CheckIsValid();
 
    private:
     double CheckAnswers();

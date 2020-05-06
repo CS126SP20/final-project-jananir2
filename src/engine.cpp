@@ -96,4 +96,8 @@ void Engine::HandleQuizChoice(int choice) {
   }
 }
 
+bool Engine::CheckIsValid() {
+  return setup_.GetNumQuestions() != 0;
+}
+
 }

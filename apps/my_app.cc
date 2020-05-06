@@ -72,6 +72,8 @@ void MyApp::draw() {
     DrawChooseQuiz();
   } else if (state_ == GameState::kShowScore) {
     DrawResultsPage();
+  } else if (state_ == GameState::kInvalid) {
+    DrawInvalid();
   }
 }
 
@@ -112,17 +114,28 @@ void MyApp::keyDown(KeyEvent event) {
     }
     case KeyEvent::KEY_1: {
       engine_.HandleQuizChoice(1);
-      state_ = GameState::kTakingQuiz;
+      if (engine_.CheckIsValid()) {
+        state_ = GameState::kTakingQuiz;
+      } else {
+        state_ = GameState::kInvalid;
+      }
       break;
     }
     case KeyEvent::KEY_2: {
       engine_.HandleQuizChoice(2);
-      state_ = GameState::kTakingQuiz;
-      break;
+      if (engine_.CheckIsValid()) {
+        state_ = GameState::kTakingQuiz;
+      } else {
+        state_ = GameState::kInvalid;
+      }      break;
     }
     case KeyEvent::KEY_3: {
       engine_.HandleQuizChoice(3);
-      state_ = GameState::kTakingQuiz;
+      if (engine_.CheckIsValid()) {
+        state_ = GameState::kTakingQuiz;
+      } else {
+        state_ = GameState::kInvalid;
+      }
       break;
     }
   }
@@ -157,14 +170,22 @@ void MyApp::DrawQuestion() {
               Color(1, 0, 0), size,
               {center.x, center.y + (row++) * 100},
               FontState::kBoldCaps);
-  } else if (engine_.RetrieveQuestion(
-                        engine_.GetCurrQuestionIndex()).size() != 1) {
+  } else {
     row++;
-    PrintText(std::to_string(engine_.GetCurrQuestionIndex() + 1),
-              Color(1, 0, 0), size,
-              {center.x, center.y + (row++) * 100},
-              FontState::kRegular);
   }
+  PrintText(std::to_string(engine_.GetCurrQuestionIndex() + 1),
+            Color(1, 0, 0), size,
+            {center.x, center.y + (row++) * 100},
+            FontState::kRegular);
+}
+
+void MyApp::DrawInvalid() {
+  const cinder::vec2 center = getWindowCenter();
+  const cinder::ivec2 size = {800, 500};
+  PrintText("Invalid file provided",
+            Color(1, 0, 0), size,
+            {center.x, center.y},
+            FontState::kBoldCaps);
 }
 
 void MyApp::DrawBackground() {

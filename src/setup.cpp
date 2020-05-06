@@ -38,14 +38,16 @@ void Setup::PopulateQAvectors(string file) {
         cell.read_value(value);
         question.push_back(value);
       }
-
-      answers.push_back(question.back());
-      question.pop_back();
-      questions.push_back(question);
+      if (question.size() != 6) {
+        is_valid = false;
+        return;
+      } else {
+        answers.push_back(question.back());
+        question.pop_back();
+        questions.push_back(question);
+      }
     }
   } else {
-    answers.push_back("Invalid file provided");
-    questions.push_back(answers);
     is_valid = false;
   }
 

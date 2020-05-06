@@ -49,7 +49,7 @@
     - Changed font and background display
     - Still need to:
     
-        [ ] Add logic for calculating score
+        [x] Add logic for calculating score
         
         [x] Add logic for answering questions using keyboard   
              
