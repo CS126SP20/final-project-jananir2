@@ -1,12 +1,8 @@
 // Copyright (c) 2020 [Your Name]. All rights reserved.
 
 #include "my_app.h"
-#include <csv2/reader.hpp>
-#include <cinder/app/App.h>
 #include <cinder/gl/draw.h>
 #include <cinder/gl/gl.h>
-#include <mylibrary/setup.h>
-#include <gflags/gflags.h>
 
 namespace myapp {
 
@@ -117,17 +113,18 @@ void MyApp::keyDown(KeyEvent event) {
         // them to play again
         PlayAgain();
         break;
-      } else if (engine_.CheckIsLastQuestion()) {
+      } else if (state_ == GameState::kTakingQuiz && engine_.CheckIsLastQuestion()) {
         // Pressing enter when the user is on the last question takes them to
         // the score page
         state_ = GameState::kShowScore;
         break;
-      } else if (state_ != GameState::kTakingQuiz) {
+      } else if (state_ == GameState::kCoverPage) {
         // Pressing enter when the user is on the cover page takes them to the
         // page where they can choose their quiz
         state_ = GameState::kChoosingQuiz;
         break;
       }
+      break;
     }
     case KeyEvent::KEY_1: {
       engine_.HandleQuizChoice(1);

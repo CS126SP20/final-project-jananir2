@@ -3,7 +3,6 @@
 #define CATCH_CONFIG_MAIN
 
 #include <catch2/catch.hpp>
-#include <cinder/Rand.h>
 #include <mylibrary/setup.h>
 
 #include <mylibrary/engine.h>
@@ -37,6 +36,13 @@ TEST_CASE("Check Setup methods for regular file", "[simplefile]") {
         "C) green") != std::string::npos);
     REQUIRE(setup_.RetrieveQuestions().at(1).at(4).find(
         "D) boo") != std::string::npos);
+  }
+
+  SECTION("Check clears setup method") {
+    setup_.ClearSetup();
+    REQUIRE(setup_.RetrieveQuestions().size() == 0);
+    REQUIRE(setup_.GetNumQuestions() == 0);
+    REQUIRE(setup_.RetrieveAnswers().size() == 0);
   }
 }
 

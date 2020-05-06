@@ -1,6 +1,5 @@
 
 #include <catch2/catch.hpp>
-#include <cinder/Rand.h>
 #include <mylibrary/setup.h>
 
 #include <mylibrary/engine.h>
