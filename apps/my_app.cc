@@ -15,30 +15,40 @@ using cinder::gl::Texture2d;
 using cinder::gl::Texture2dRef;
 using namespace csv2;
 using namespace cinder;
+using namespace std;
 
 DECLARE_uint32(size);
 DECLARE_string(filename1);
 DECLARE_string(filename2);
 DECLARE_string(filename3);
+DECLARE_string(filename4);
+
+const cinder::vec2 kCenter = cinder::app::getWindowCenter();
+const cinder::ivec2 kDefaultSize = {800, 500};
+const Color kDefaultColor = Color::black();
+const int kLineSpacing = 100;
+const float kFontSize = 20.0;
+const int kNumQuizzes = 4;
 
 MyApp::MyApp()
-    : engine_{FLAGS_filename1, FLAGS_filename2, FLAGS_filename3} {}
+    : engine_{FLAGS_filename1, FLAGS_filename2,
+              FLAGS_filename3, FLAGS_filename4} {}
 
 template <typename C>
-void PrintText(const std::string& text, const C& color,
+void PrintText(const string& text, const C& color,
                const cinder::ivec2& size, const cinder::vec2& loc,
                FontState font_state) {
   cinder::Font font = cinder::Font(cinder::app::loadAsset(
-                                   "SFCartoonistHand.ttf"), 20.0);
+                                   "SFCartoonistHand.ttf"), kFontSize);
   if (font_state == FontState::kBoldCaps) {
     font = cinder::Font(cinder::app::loadAsset(
-                            "SFCartoonistHandSC-Bold.ttf"), 20.0);
+                            "SFCartoonistHandSC-Bold.ttf"), kFontSize);
   } else if (font_state == FontState::kCaps) {
     font = cinder::Font(cinder::app::loadAsset(
-        "SFCartoonistHandSC.ttf"), 20.0);
+                            "SFCartoonistHandSC.ttf"), kFontSize);
   } else if (font_state == FontState::kBoldItalic) {
     font = cinder::Font(cinder::app::loadAsset(
-                        "SFCartoonistHand-BoldItalic.ttf"), 20.0);
+                        "SFCartoonistHand-BoldItalic.ttf"), kFontSize);
   }
 
   cinder::TextBox box = TextBox()
@@ -50,7 +60,8 @@ void PrintText(const std::string& text, const C& color,
                  .text(text);
 
   const auto box_size = box.getSize();
-  const cinder::vec2 locp = {loc.x - box_size.x / 2, loc.y - box_size.y / 2};
+  const cinder::vec2 locp = {loc.x - box_size.x / 2,
+                             loc.y - box_size.y / 2};
   const auto surface = box.render();
   const auto texture = cinder::gl::Texture::create(surface);
   cinder::gl::draw(texture, locp);
@@ -63,8 +74,6 @@ void MyApp::setup() {
 void MyApp::update() {}
 
 void MyApp::draw() {
-  cinder::gl::clear();
-
   DrawBackground();
   if (state_ == GameState::kTakingQuiz) {
     DrawQuestion();
@@ -104,10 +113,13 @@ void MyApp::keyDown(KeyEvent event) {
       break;
     }
     case KeyEvent::KEY_RETURN: {
-      if (engine_.CheckIsLastQuestion()) {
+      if (state_ == GameState::kInvalid || state_ == GameState::kShowScore) {
+        PlayAgain();
+        break;
+      } else if (engine_.CheckIsLastQuestion()) {
         state_ = GameState::kShowScore;
         break;
-      } else {
+      } else if (state_ != GameState::kTakingQuiz) {
         state_ = GameState::kChoosingQuiz;
         break;
       }
@@ -127,10 +139,20 @@ void MyApp::keyDown(KeyEvent event) {
         state_ = GameState::kTakingQuiz;
       } else {
         state_ = GameState::kInvalid;
-      }      break;
+      }
+      break;
     }
     case KeyEvent::KEY_3: {
       engine_.HandleQuizChoice(3);
+      if (engine_.CheckIsValid()) {
+        state_ = GameState::kTakingQuiz;
+      } else {
+        state_ = GameState::kInvalid;
+      }
+      break;
+    }
+    case KeyEvent::KEY_4: {
+      engine_.HandleQuizChoice(4);
       if (engine_.CheckIsValid()) {
         state_ = GameState::kTakingQuiz;
       } else {
@@ -142,17 +164,14 @@ void MyApp::keyDown(KeyEvent event) {
 }
 
 void MyApp::DrawQuestion() {
-  const cinder::vec2 center = getWindowCenter();
-  const cinder::ivec2 size = {800, 500};
-  const Color color = Color::black();
-
-  std::vector<std::string> quiz_question =
+  vector<string> quiz_question =
       engine_.RetrieveQuestion(engine_.GetCurrQuestionIndex());
 
   int line_index = 0;
   int row = line_index - 1;
   FontState curr_font;
-  for (std::string line : quiz_question) {
+
+  for (string line : quiz_question) {
     if (line_index == 0) {
       curr_font = FontState::kCaps;
     } else if (engine_.CheckIsSelected(line_index)) {
@@ -160,36 +179,38 @@ void MyApp::DrawQuestion() {
     } else {
       curr_font = FontState::kRegular;
     }
-    PrintText(line, color, size, {center.x, center.y + (row++) * 100},
-              curr_font);
+
+    PrintText(line, kDefaultColor, kDefaultSize,
+              {kCenter.x, kCenter.y + (row++) * kLineSpacing}, curr_font);
     line_index++;
   }
 
   if (engine_.CheckIsLastQuestion()) {
     PrintText("Press ENTER to view results",
-              Color(1, 0, 0), size,
-              {center.x, center.y + (row++) * 100},
+              Color(1, 0, 0), kDefaultSize,
+              {kCenter.x, kCenter.y + (row++) * kLineSpacing},
               FontState::kBoldCaps);
   } else {
     row++;
   }
-  PrintText(std::to_string(engine_.GetCurrQuestionIndex() + 1),
-            Color(1, 0, 0), size,
-            {center.x, center.y + (row++) * 100},
+  PrintText(to_string(engine_.GetCurrQuestionIndex() + 1),
+            Color(1, 0, 0), kDefaultSize,
+            {kCenter.x, kCenter.y + (row++) * kLineSpacing},
             FontState::kRegular);
 }
 
 void MyApp::DrawInvalid() {
-  const cinder::vec2 center = getWindowCenter();
-  const cinder::ivec2 size = {800, 500};
   PrintText("Invalid file provided",
-            Color(1, 0, 0), size,
-            {center.x, center.y},
+            Color(1, 0, 0), kDefaultSize,
+            {kCenter.x, kCenter.y},FontState::kBoldCaps);
+  PrintText("Press ENTER to choose another quiz!",
+            Color(0, 0, 0), kDefaultSize,
+            {kCenter.x, kCenter.y + kLineSpacing},
             FontState::kBoldCaps);
 }
 
 void MyApp::DrawBackground() {
-  std::string image_file = "quizpagetext.png";
+  string image_file = "quizpagetext.png";
   if (state_ == GameState::kCoverPage) {
     image_file = "coverpage.png";
   }
@@ -200,32 +221,34 @@ void MyApp::DrawBackground() {
 }
 
 void MyApp::DrawResultsPage() {
-  const cinder::vec2 center = getWindowCenter();
-  const cinder::ivec2 size = {800, 500};
-  const Color color = Color::black();
-  PrintText("Results", color, size, {center.x, center.y - 100},
+  PrintText("Results", kDefaultColor, kDefaultSize,
+            {kCenter.x, kCenter.y - kLineSpacing},
             FontState::kBoldCaps);
-  PrintText("You scored " + std::to_string(int(engine_.GetScore())) + "%!",
-            color, size, {center.x, center.y}, FontState::kRegular);
+  PrintText("You scored " + to_string(int(engine_.GetScore())) + "%!",
+            kDefaultColor, kDefaultSize, {kCenter.x, kCenter.y},
+            FontState::kRegular);
+  PrintText("Press ENTER to choose another quiz!",
+            Color(0, 0, 0), kDefaultSize,
+            {kCenter.x, kCenter.y + kLineSpacing},
+            FontState::kCaps);
 }
 
 void MyApp::DrawChooseQuiz() {
-  const cinder::vec2 center = getWindowCenter();
-  const cinder::ivec2 size = {800, 500};
-  const Color color = Color::black();
-
-  for (int i = 0; i <= 3; i++) {
+  for (int i = 0; i <= kNumQuizzes; i++) {
     if (i == 0) {
       PrintText("Enter the number of the quiz you want to take",
-                Color(1, .2, 1), size, {center.x, center.y},
-                FontState::kBoldCaps);
-    }
-    else {
-      PrintText("Quiz " + std::to_string(i),
-                Color(1, 0, 1), size,
-                {center.x, center.y + i * 100},
+                Color(1, .2, 1), kDefaultSize,
+                {kCenter.x, kCenter.y},FontState::kBoldCaps);
+    } else {
+      PrintText("Quiz " + to_string(i), Color(1, 0, 1),
+                kDefaultSize, {kCenter.x, kCenter.y + i * kLineSpacing},
                 FontState::kRegular);
     }
   }
+}
+
+void MyApp::PlayAgain() {
+  engine_.ClearEngine();
+  state_ = GameState::kChoosingQuiz;
 }
 } // namespace myapp

@@ -11,7 +11,7 @@
 namespace mylibrary {
   class Engine {
    public:
-    Engine(std::string file1, std::string file2, std::string file3);
+    Engine(std::string file1, std::string file2, std::string file3, std::string file4);
     void SetChoice(int choice);
     std::string RetrieveAnswer(int num);
     std::vector<std::string> RetrieveQuestion(int num);
@@ -23,6 +23,7 @@ namespace mylibrary {
     double GetScore();
     void HandleQuizChoice(int choice);
     bool CheckIsValid();
+    void ClearEngine();
 
    private:
     double CheckAnswers();
@@ -34,6 +35,7 @@ namespace mylibrary {
     std::string filename1;
     std::string filename2;
     std::string filename3;
+    std::string filename4;
   };
 }
 #endif  // FINALPROJECT_ENGINE_H

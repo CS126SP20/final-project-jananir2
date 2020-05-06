@@ -19,6 +19,7 @@ DEFINE_uint32(size, 1300, "the height and width of the window");
 DEFINE_string(filename1, "quizzes/quiz1.csv", "the name of the first quiz file");
 DEFINE_string(filename2, "quizzes/quiz2.csv", "the name of the second quiz file");
 DEFINE_string(filename3, "quizzes/quiz3.csv", "the name of the third quiz file");
+DEFINE_string(filename4, "quizzes/quiz4.csv", "the name of the fourth quiz file");
 
 const int kSamples = 8;
 

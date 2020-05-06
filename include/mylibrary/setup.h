@@ -16,7 +16,7 @@ class Setup {
   void PopulateQAvectors(std::string file);
   std::vector<std::vector<std::string>> RetrieveQuestions();
   std::vector<std::string> RetrieveAnswers();
-  bool CheckIsValid();
+  void ClearSetup();
 
  private:
 

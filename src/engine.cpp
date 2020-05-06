@@ -9,13 +9,15 @@
 namespace mylibrary {
 
 using namespace std;
+const int kPercentMultiplier = 100;
 
-Engine::Engine(string file1, string file2, string file3)
+Engine::Engine(string file1, string file2, string file3, string file4)
     : setup_{},
       curr_question{0} {
   filename1 = file1;
   filename2 = file2;
   filename3 = file3;
+  filename4 = file4;
 }
 
 vector<string> Engine::RetrieveQuestion(int num) {
@@ -46,7 +48,7 @@ std::string Engine::RetrieveAnswer(int num) {
 }
 
 double Engine::GetScore() {
-  return CheckAnswers()/setup_.GetNumQuestions() * 100;
+  return CheckAnswers()/setup_.GetNumQuestions() * kPercentMultiplier;
 }
 
 double Engine::CheckAnswers() {
@@ -62,7 +64,7 @@ double Engine::CheckAnswers() {
 }
 
 bool Engine::CheckIsLastQuestion () {
-  return setup_.CheckIsValid() && curr_question == setup_.GetNumQuestions() - 1;
+  return curr_question == setup_.GetNumQuestions() - 1;
 }
 
 bool Engine::CheckIsSelected (int choice) {
@@ -90,6 +92,10 @@ void Engine::HandleQuizChoice(int choice) {
       setup_.PopulateQAvectors(filename3);
       break;
     }
+    case 4: {
+      setup_.PopulateQAvectors(filename4);
+      break;
+    }
   }
   for (int i = 0; i < setup_.GetNumQuestions(); i++) {
     user_answer.push_back("-----------");
@@ -98,6 +104,12 @@ void Engine::HandleQuizChoice(int choice) {
 
 bool Engine::CheckIsValid() {
   return setup_.GetNumQuestions() != 0;
+}
+
+void Engine::ClearEngine() {
+  setup_.ClearSetup();
+  curr_question = 0;
+  user_answer.clear();
 }
 
 }

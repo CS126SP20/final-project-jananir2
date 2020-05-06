@@ -13,6 +13,7 @@ namespace mylibrary {
 using namespace std;
 using namespace csv2;
 using namespace cinder;
+const int kVectorSize = 6;
 
 Setup::Setup() {
   is_valid = true;
@@ -38,7 +39,7 @@ void Setup::PopulateQAvectors(string file) {
         cell.read_value(value);
         question.push_back(value);
       }
-      if (question.size() != 6) {
+      if (question.size() != kVectorSize) {
         is_valid = false;
         return;
       } else {
@@ -60,6 +61,11 @@ vector<vector<string>> Setup::RetrieveQuestions() {
 vector<string> Setup::RetrieveAnswers() {
   return answers;
 }
-bool Setup::CheckIsValid() { return is_valid; }
+
+void Setup::ClearSetup() {
+  answers.clear();
+  questions.clear();
+  is_valid = true;
+}
 
 } // namespace mylibrary

@@ -43,6 +43,7 @@ class MyApp : public cinder::app::App {
 
  private:
   mylibrary::Engine engine_;
+  void PlayAgain();
 };
 
 }  // namespace myapp
