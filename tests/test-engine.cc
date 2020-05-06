@@ -10,7 +10,8 @@ using namespace std;
 
 TEST_CASE("Test handles quiz choice correctly",
           "[retrieve question][retrieve answer]") {
-  mylibrary::Engine engine_{"quizzes/quiz1.csv", "quizzes/quiz2.csv", "quizzes/quiz3.csv"};
+  mylibrary::Engine engine_{"quizzes/quiz1.csv", "quizzes/quiz2.csv",
+                            "quizzes/quiz3.csv", "quizzes/quiz4.csv"};
   engine_.HandleQuizChoice(1);
 
   SECTION("Test retrieve question") {
@@ -32,7 +33,8 @@ TEST_CASE("Test handles quiz choice correctly",
 }
 
 TEST_CASE("Test current index of function", "[increase][decrease]") {
-  mylibrary::Engine engine_{"quizzes/quiz1.csv", "quizzes/quiz2.csv", "quizzes/quiz3.csv"};
+  mylibrary::Engine engine_{"quizzes/quiz1.csv", "quizzes/quiz2.csv",
+                            "quizzes/quiz3.csv", "quizzes.quiz4.csv"};
   engine_.HandleQuizChoice(2);
 
   SECTION("Test increase index by two") {

@@ -10,6 +10,7 @@
 
 namespace myapp {
 
+/** State of the game */
 enum class GameState {
   kTakingQuiz,
   kChoosingQuiz,
@@ -18,6 +19,7 @@ enum class GameState {
   kInvalid,
 };
 
+/** Types of fonts to write text in */
 enum class FontState {
   kRegular,
   kCaps,
@@ -34,16 +36,22 @@ class MyApp : public cinder::app::App {
   void keyDown(cinder::app::KeyEvent) override;
 
  private:
+  /** Draw each quiz question and answer*/
   void DrawQuestion();
+  /** Draws the background as either the cover page or default background */
   void DrawBackground();
+  /** Draws the page where the user can choose which quiz they want to take */
   void DrawChooseQuiz();
+  /** Draws the page that displays the results of the quiz */
   void DrawResultsPage();
+  /** Draws the page that tells the user that the quiz they passed in is invalid */
   void DrawInvalid();
-  GameState state_;
+  /** Draws the page that displays the results of the quiz */
+  void PlayAgain();
 
  private:
   mylibrary::Engine engine_;
-  void PlayAgain();
+  GameState state_;
 };
 
 }  // namespace myapp

@@ -23,7 +23,6 @@ DECLARE_string(filename2);
 DECLARE_string(filename3);
 DECLARE_string(filename4);
 
-const cinder::vec2 kCenter = cinder::app::getWindowCenter();
 const cinder::ivec2 kDefaultSize = {800, 500};
 const Color kDefaultColor = Color::black();
 const int kLineSpacing = 100;
@@ -34,24 +33,24 @@ MyApp::MyApp()
     : engine_{FLAGS_filename1, FLAGS_filename2,
               FLAGS_filename3, FLAGS_filename4} {}
 
+// Prints text using the provided color, size, location and type of font desired
 template <typename C>
-void PrintText(const string& text, const C& color,
-               const cinder::ivec2& size, const cinder::vec2& loc,
-               FontState font_state) {
-  cinder::Font font = cinder::Font(cinder::app::loadAsset(
-                                   "SFCartoonistHand.ttf"), kFontSize);
+void PrintText(const string& text, const C& color, const ivec2& size,
+               const vec2& loc, FontState font_state) {
+  Font font = Font(app::loadAsset(
+                   "fonts/SFCartoonistHand.ttf"), kFontSize);
   if (font_state == FontState::kBoldCaps) {
-    font = cinder::Font(cinder::app::loadAsset(
-                            "SFCartoonistHandSC-Bold.ttf"), kFontSize);
+    font = Font(app::loadAsset(
+                "fonts/SFCartoonistHandSC-Bold.ttf"), kFontSize);
   } else if (font_state == FontState::kCaps) {
-    font = cinder::Font(cinder::app::loadAsset(
-                            "SFCartoonistHandSC.ttf"), kFontSize);
+    font = Font(app::loadAsset(
+                "fonts/SFCartoonistHandSC.ttf"), kFontSize);
   } else if (font_state == FontState::kBoldItalic) {
-    font = cinder::Font(cinder::app::loadAsset(
-                        "SFCartoonistHand-BoldItalic.ttf"), kFontSize);
+    font = Font(app::loadAsset(
+                "fonts/SFCartoonistHand-BoldItalic.ttf"), kFontSize);
   }
 
-  cinder::TextBox box = TextBox()
+  TextBox box = TextBox()
                  .alignment(TextBox::CENTER)
                  .font(font)
                  .size(size)
@@ -60,11 +59,11 @@ void PrintText(const string& text, const C& color,
                  .text(text);
 
   const auto box_size = box.getSize();
-  const cinder::vec2 locp = {loc.x - box_size.x / 2,
+  const vec2 locp = {loc.x - box_size.x / 2,
                              loc.y - box_size.y / 2};
   const auto surface = box.render();
-  const auto texture = cinder::gl::Texture::create(surface);
-  cinder::gl::draw(texture, locp);
+  const auto texture = gl::Texture::create(surface);
+  gl::draw(texture, locp);
 }
 
 void MyApp::setup() {
@@ -97,35 +96,42 @@ void MyApp::keyDown(KeyEvent event) {
       break;
     }
     case KeyEvent::KEY_a: {
-      engine_.SetChoice(1);
+      engine_.SetAnswerChoice(1);
       break;
     }
     case KeyEvent::KEY_b: {
-      engine_.SetChoice(2);
+      engine_.SetAnswerChoice(2);
       break;
     }
     case KeyEvent::KEY_c: {
-      engine_.SetChoice(3);
+      engine_.SetAnswerChoice(3);
       break;
     }
     case KeyEvent::KEY_d: {
-      engine_.SetChoice(4);
+      engine_.SetAnswerChoice(4);
       break;
     }
     case KeyEvent::KEY_RETURN: {
       if (state_ == GameState::kInvalid || state_ == GameState::kShowScore) {
+        // Pressing enter when the user is on the Invalid or Score page allows
+        // them to play again
         PlayAgain();
         break;
       } else if (engine_.CheckIsLastQuestion()) {
+        // Pressing enter when the user is on the last question takes them to
+        // the score page
         state_ = GameState::kShowScore;
         break;
       } else if (state_ != GameState::kTakingQuiz) {
+        // Pressing enter when the user is on the cover page takes them to the
+        // page where they can choose their quiz
         state_ = GameState::kChoosingQuiz;
         break;
       }
     }
     case KeyEvent::KEY_1: {
       engine_.HandleQuizChoice(1);
+      // If quiz1 is valid then user can take it, otherwise goes to invalid page
       if (engine_.CheckIsValid()) {
         state_ = GameState::kTakingQuiz;
       } else {
@@ -135,6 +141,7 @@ void MyApp::keyDown(KeyEvent event) {
     }
     case KeyEvent::KEY_2: {
       engine_.HandleQuizChoice(2);
+      // If quiz2 is valid then user can take it, otherwise goes to invalid page
       if (engine_.CheckIsValid()) {
         state_ = GameState::kTakingQuiz;
       } else {
@@ -143,6 +150,7 @@ void MyApp::keyDown(KeyEvent event) {
       break;
     }
     case KeyEvent::KEY_3: {
+      // If quiz3 is valid then user can take it, otherwise goes to invalid page
       engine_.HandleQuizChoice(3);
       if (engine_.CheckIsValid()) {
         state_ = GameState::kTakingQuiz;
@@ -152,6 +160,7 @@ void MyApp::keyDown(KeyEvent event) {
       break;
     }
     case KeyEvent::KEY_4: {
+      // If quiz4 is valid then user can take it, otherwise goes to invalid page
       engine_.HandleQuizChoice(4);
       if (engine_.CheckIsValid()) {
         state_ = GameState::kTakingQuiz;
@@ -167,52 +176,61 @@ void MyApp::DrawQuestion() {
   vector<string> quiz_question =
       engine_.RetrieveQuestion(engine_.GetCurrQuestionIndex());
 
-  int line_index = 0;
-  int row = line_index - 1;
+  int line_index = 0; // The index of quiz_question vector
+  int row = line_index - 1; // The row at which text begins printing
   FontState curr_font;
 
+  // Go through each line in the quiz_question vector
   for (string line : quiz_question) {
     if (line_index == 0) {
+      // If at the first line, then it is the question -- display in all caps
       curr_font = FontState::kCaps;
     } else if (engine_.CheckIsSelected(line_index)) {
+      // If the answer choice at this index is selected, display in bold italics
       curr_font = FontState::kBoldItalic;
     } else {
+      // Otherwise display it as regular text
       curr_font = FontState::kRegular;
     }
 
     PrintText(line, kDefaultColor, kDefaultSize,
-              {kCenter.x, kCenter.y + (row++) * kLineSpacing}, curr_font);
+              {getWindowCenter().x,
+               getWindowCenter().y + (row++) * kLineSpacing}, curr_font);
     line_index++;
   }
 
   if (engine_.CheckIsLastQuestion()) {
     PrintText("Press ENTER to view results",
               Color(1, 0, 0), kDefaultSize,
-              {kCenter.x, kCenter.y + (row++) * kLineSpacing},
+              {getWindowCenter().x,
+               getWindowCenter().y + (row++) * kLineSpacing},
               FontState::kBoldCaps);
   } else {
     row++;
   }
+  // Display the number of the current question
   PrintText(to_string(engine_.GetCurrQuestionIndex() + 1),
             Color(1, 0, 0), kDefaultSize,
-            {kCenter.x, kCenter.y + (row++) * kLineSpacing},
+            {getWindowCenter().x,
+             getWindowCenter().y + (row++) * kLineSpacing},
             FontState::kRegular);
 }
 
 void MyApp::DrawInvalid() {
   PrintText("Invalid file provided",
             Color(1, 0, 0), kDefaultSize,
-            {kCenter.x, kCenter.y},FontState::kBoldCaps);
+            {getWindowCenter().x, getWindowCenter().y},
+            FontState::kBoldCaps);
   PrintText("Press ENTER to choose another quiz!",
             Color(0, 0, 0), kDefaultSize,
-            {kCenter.x, kCenter.y + kLineSpacing},
+            {getWindowCenter().x, getWindowCenter().y + kLineSpacing},
             FontState::kBoldCaps);
 }
 
 void MyApp::DrawBackground() {
-  string image_file = "quizpagetext.png";
+  string image_file = "backgrounds/quizpagetext.png";
   if (state_ == GameState::kCoverPage) {
-    image_file = "coverpage.png";
+    image_file = "backgrounds/coverpage.png";
   }
   Texture2dRef background = Texture2d::create(loadImage(
           loadAsset(image_file)));
@@ -222,14 +240,15 @@ void MyApp::DrawBackground() {
 
 void MyApp::DrawResultsPage() {
   PrintText("Results", kDefaultColor, kDefaultSize,
-            {kCenter.x, kCenter.y - kLineSpacing},
+            {getWindowCenter().x, getWindowCenter().y - kLineSpacing},
             FontState::kBoldCaps);
   PrintText("You scored " + to_string(int(engine_.GetScore())) + "%!",
-            kDefaultColor, kDefaultSize, {kCenter.x, kCenter.y},
+            kDefaultColor, kDefaultSize,
+            {getWindowCenter().x, getWindowCenter().y},
             FontState::kRegular);
   PrintText("Press ENTER to choose another quiz!",
             Color(0, 0, 0), kDefaultSize,
-            {kCenter.x, kCenter.y + kLineSpacing},
+            {getWindowCenter().x, getWindowCenter().y + kLineSpacing},
             FontState::kCaps);
 }
 
@@ -238,17 +257,19 @@ void MyApp::DrawChooseQuiz() {
     if (i == 0) {
       PrintText("Enter the number of the quiz you want to take",
                 Color(1, .2, 1), kDefaultSize,
-                {kCenter.x, kCenter.y},FontState::kBoldCaps);
+                {getWindowCenter().x, getWindowCenter().y},
+                FontState::kBoldCaps);
     } else {
       PrintText("Quiz " + to_string(i), Color(1, 0, 1),
-                kDefaultSize, {kCenter.x, kCenter.y + i * kLineSpacing},
+                kDefaultSize, {getWindowCenter().x,
+                               getWindowCenter().y + i * kLineSpacing},
                 FontState::kRegular);
     }
   }
 }
 
 void MyApp::PlayAgain() {
-  engine_.ClearEngine();
+  engine_.ResetEngine();
   state_ = GameState::kChoosingQuiz;
 }
 } // namespace myapp
