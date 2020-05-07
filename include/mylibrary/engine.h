@@ -42,7 +42,7 @@ namespace mylibrary {
     /** Checks and returns how many answers the user got correct */
     double CheckAnswers();
 
-   public:
+   private:
     Setup setup_;
     int curr_question;
     std::vector<std::string> user_answer;

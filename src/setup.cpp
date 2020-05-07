@@ -48,6 +48,7 @@ void Setup::PopulateQAvectors(string file) {
         // If there isn't exactly 1 question, 4 answer choices, and 1 answer,
         // the quiz can't be taken & the file is invalid, so clear all questions
         questions.clear();
+        answers.clear();
         return;
       } else {
         // Otherwise add the last element of the question vector to the answers

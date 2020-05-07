@@ -31,9 +31,25 @@ TEST_CASE("Test handles quiz choice correctly",
   }
 }
 
+TEST_CASE("Test check valid", "[handle quiz][check valid]") {
+  SECTION("One file is invalid, handle valid file") {
+    mylibrary::Engine engine_{"quizzes/quiz1.csv", "quizzes/quiz2.csv",
+                              "quizzes/quiz3.csv", "quizzes/quiz5.csv"};
+    engine_.HandleQuizChoice(2);
+    REQUIRE(engine_.CheckIsValid());
+  }
+
+  SECTION("One file is invalid, handle that file") {
+    mylibrary::Engine engine_{"quizzes/quiz1.csv", "quizzes/quiz2.csv",
+                              "quizzes/quiz5.csv", "simplefile.csv"};
+    engine_.HandleQuizChoice(3);
+    REQUIRE(!engine_.CheckIsValid());
+  }
+}
+
 TEST_CASE("Test current index of function", "[increase][decrease]") {
   mylibrary::Engine engine_{"quizzes/quiz1.csv", "quizzes/quiz2.csv",
-                            "quizzes/quiz3.csv", "quizzes.quiz4.csv"};
+                            "quizzes/quiz3.csv", "quizzes/quiz4.csv"};
   engine_.HandleQuizChoice(2);
 
   SECTION("Test increase index by two") {
@@ -61,4 +77,95 @@ TEST_CASE("Test current index of function", "[increase][decrease]") {
     }
     REQUIRE(engine_.GetCurrQuestionIndex() == 29);
   }
+}
+
+TEST_CASE("Test if last question", "[increase index][decrease index]") {
+  mylibrary::Engine engine_{"quizzes/simplefile.csv", "quizzes/quiz2.csv",
+                            "quizzes/quiz3.csv", "quizzes/quiz4.csv"};
+  engine_.HandleQuizChoice(1);
+
+  SECTION("Test is not last question") {
+    REQUIRE(!engine_.CheckIsLastQuestion());
+  }
+
+  SECTION("Test is last question") {
+    engine_.IncCurrQuestion();
+    REQUIRE(engine_.CheckIsLastQuestion());
+  }
+}
+
+TEST_CASE("Test answer selection", "[test set answer choice][test check selected]") {
+  mylibrary::Engine engine_{"quizzes/simplefile.csv", "quizzes/quiz5.csv",
+                            "quizzes/quiz3.csv", "quizzes/badformatquiz.csv"};
+  engine_.HandleQuizChoice(3);
+
+  SECTION("Test user's answer and selected answer are same for current question") {
+    engine_.IncCurrQuestion();
+    engine_.IncCurrQuestion();
+    engine_.IncCurrQuestion();
+    engine_.SetAnswerChoice(2);
+    REQUIRE(engine_.CheckIsSelected(2));
+    REQUIRE(!engine_.CheckIsSelected(3));
+  }
+
+  SECTION("Test answer user selected for current question is not also selected for next question") {
+    engine_.IncCurrQuestion();
+    engine_.IncCurrQuestion();
+    engine_.IncCurrQuestion();
+    engine_.SetAnswerChoice(2);
+    engine_.IncCurrQuestion();
+    REQUIRE(!engine_.CheckIsSelected(2));
+  }
+
+  SECTION("Test user can change answer selection") {
+    engine_.SetAnswerChoice(3);
+    engine_.SetAnswerChoice(4);
+    REQUIRE(engine_.CheckIsSelected(4));
+    REQUIRE(!engine_.CheckIsSelected(3));
+  }
+}
+
+TEST_CASE("Get score function") {
+  mylibrary::Engine engine_{
+      "quizzes/simplefile.csv", "quizzes/badformatquiz.csv",
+                            "quizzes/quiz3.csv", "quizzes/quiz4.csv"};
+
+  SECTION("Test correct score for answer all D's to quiz4") {
+    engine_.HandleQuizChoice(4);
+    for (int i = 0; i < 30; i++) {
+      engine_.SetAnswerChoice(4);
+      engine_.IncCurrQuestion();
+    }
+    REQUIRE(engine_.GetScore() == (5.0 / 30.0 * 100));
+  }
+
+  SECTION("Test correct score for not answering any questions") {
+    engine_.HandleQuizChoice(4);
+    for (int i = 0; i < 30; i++) {
+      engine_.IncCurrQuestion();
+    }
+    REQUIRE(engine_.GetScore() == 0);
+  }
+
+  SECTION("Test correct score for answering all questions correctly") {
+    engine_.HandleQuizChoice(1);
+    engine_.SetAnswerChoice(3);
+    engine_.IncCurrQuestion();
+    engine_.SetAnswerChoice(1);
+    REQUIRE(engine_.GetScore() == 100.0);
+  }
+}
+
+TEST_CASE("Test reset engine", "[get current question index]") {
+  mylibrary::Engine engine_{"quizzes/simplefile.csv", "quizzes/quiz2.csv",
+                            "quizzes/quiz3.csv", "quizzes/quiz4.csv"};
+  engine_.HandleQuizChoice(3);
+
+  engine_.IncCurrQuestion();
+  engine_.IncCurrQuestion();
+  engine_.IncCurrQuestion();
+  REQUIRE(engine_.GetCurrQuestionIndex() == 3);
+
+  engine_.ResetEngine();
+  REQUIRE(engine_.GetCurrQuestionIndex() == 0);
 }

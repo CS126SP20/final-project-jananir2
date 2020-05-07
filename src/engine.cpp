@@ -32,12 +32,14 @@ void Engine::IncCurrQuestion() {
     curr_question++;
   }
 }
+
 void Engine::DecCurrQuestion() {
   // Does not decrease the current question below the first question
   if (curr_question > 0) {
     curr_question--;
   }
 }
+
 void Engine::SetAnswerChoice(int choice) {
   user_answer[curr_question] = RetrieveQuestion(curr_question).at(choice);
 }
