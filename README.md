@@ -8,25 +8,25 @@
 
 ![image info](./assets/backgrounds/coverpage.png)
 
-##About
+## About
 _So You Think You Can Trivia?_ is an app where you can test you knowledge of unique trivia through quizzes! You can
  pass your own quizzes into the application via commandline and take your own quizzes!
 
 
-##Dependencies
-###Cinder
+## Dependencies
+### Cinder
 1. Download [Cinder](https://libcinder.org/) for your platform and extract it into a folder
 2. Open the folder and build it in your IDE
 3. Create a new folder inside the one you just made
 4. You can put this project inside the newest folder
-####Windows Users
+#### Windows Users
 - You must have [Visual Studio 2015](https://visualstudio.microsoft.com/) to build this project
 
-##Libraries Used
+## Libraries Used
 - [csv2](https://github.com/p-ranav/csv2) - csv file parser
 - [gflags](https://github.com/gflags/gflags) - commandline flags processing
 
-##How To Play _So You Think You Can Trivia?_
+## How To Play _So You Think You Can Trivia?_
 - When you first build the project, you may run into this error
 
         error C2440: '<function-style-cast>'
@@ -49,7 +49,7 @@ _So You Think You Can Trivia?_ is an app where you can test you knowledge of uni
     - Enter your quizzes (you can provide up to 4) as flags as so
     
             --filename1=usersquiz1.csv --filename2=usersquiz2.csv
-###Rules
+### Rules
 - Once you start a quiz, you must finish it
 - You can leave answers blank
 - You can skip around questions and change your answers any time before submitting the quiz to be scored!
