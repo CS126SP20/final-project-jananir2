@@ -63,13 +63,20 @@
         
         [x] Add logic fo italicizing selected questions
         
- - **5/3/20** Completed application and began testing
+ - **5/4/20** Completed application and began testing
     - Added feature where user can enter their own quiz csv file(s)
     - Added feature where user can choose which quiz to take
     - Need to:
     
-        [ ] Finish testing
+        [x] Finish testing
         
         [ ] Complete README.md
         
-        [ ] Add documentation using comments
+        [x] Add documentation using comments
+        
+ - **5/6/20**
+    - Added feature where user can play again
+    - Allowed user to choose a different quiz if their file is invalid
+    - Completed README.md
+    - Added PROPOSAL.md to project
+ 
