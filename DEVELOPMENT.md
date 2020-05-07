@@ -70,7 +70,7 @@
     
         [x] Finish testing
         
-        [ ] Complete README.md
+        [x] Complete README.md
         
         [x] Add documentation using comments
         
