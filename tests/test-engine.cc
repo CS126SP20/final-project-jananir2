@@ -80,8 +80,9 @@ TEST_CASE("Test current index of function", "[increase][decrease]") {
 }
 
 TEST_CASE("Test if last question", "[increase index][decrease index]") {
-  mylibrary::Engine engine_{"quizzes/simplefile.csv", "quizzes/quiz2.csv",
-                            "quizzes/quiz3.csv", "quizzes/quiz4.csv"};
+  mylibrary::Engine engine_{"quizzes/simplefile.csv",
+                            "quizzes/quiz2.csv","quizzes/quiz3.csv",
+                            "quizzes/quiz4.csv"};
   engine_.HandleQuizChoice(1);
 
   SECTION("Test is not last question") {
@@ -94,12 +95,15 @@ TEST_CASE("Test if last question", "[increase index][decrease index]") {
   }
 }
 
-TEST_CASE("Test answer selection", "[test set answer choice][test check selected]") {
-  mylibrary::Engine engine_{"quizzes/simplefile.csv", "quizzes/quiz5.csv",
-                            "quizzes/quiz3.csv", "quizzes/badformatquiz.csv"};
+TEST_CASE("Test answer selection",
+          "[test set answer choice][test check selected]") {
+  mylibrary::Engine engine_{"quizzes/simplefile.csv",
+                            "quizzes/quiz5.csv","quizzes/quiz3.csv",
+                            "quizzes/badformatquiz.csv"};
   engine_.HandleQuizChoice(3);
 
-  SECTION("Test user's answer and selected answer are same for current question") {
+  SECTION("Test user's answer and selected answer are same for "
+      "current question") {
     engine_.IncCurrQuestion();
     engine_.IncCurrQuestion();
     engine_.IncCurrQuestion();
@@ -108,7 +112,8 @@ TEST_CASE("Test answer selection", "[test set answer choice][test check selected
     REQUIRE(!engine_.CheckIsSelected(3));
   }
 
-  SECTION("Test answer user selected for current question is not also selected for next question") {
+  SECTION("Test answer user selected for current question is not also selected "
+      "for next question") {
     engine_.IncCurrQuestion();
     engine_.IncCurrQuestion();
     engine_.IncCurrQuestion();
@@ -157,8 +162,9 @@ TEST_CASE("Get score function") {
 }
 
 TEST_CASE("Test reset engine", "[get current question index]") {
-  mylibrary::Engine engine_{"quizzes/simplefile.csv", "quizzes/quiz2.csv",
-                            "quizzes/quiz3.csv", "quizzes/quiz4.csv"};
+  mylibrary::Engine engine_{"quizzes/simplefile.csv",
+                            "quizzes/quiz2.csv","quizzes/quiz3.csv",
+                            "quizzes/quiz4.csv"};
   engine_.HandleQuizChoice(3);
 
   engine_.IncCurrQuestion();

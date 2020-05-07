@@ -19,7 +19,7 @@ Setup::Setup() { }
 int Setup::GetNumQuestions() { return questions.size(); }
 
 void Setup::PopulateQAvectors(string file) {
-  // Creates a csv file Reader provided by the csv2 class
+  // Creates a csv file Reader provided by the csv2 library
   csv2::Reader<delimiter<','>, quote_character<'"'>,
       first_row_is_header<true>> csv;
 
@@ -32,11 +32,12 @@ void Setup::PopulateQAvectors(string file) {
   if (csv.mmap(filename)) {
     const auto header = csv.header();
 
-    // Go through each line in the csv file
+    // Go through each line in the csv file (function provided by csv2 library)
     for (auto row : csv) {
       question.clear();
 
-      //Go through each comma-separated value in the file
+      // Go through each comma-separated value in the file (function provided by
+      // csv2 library)
       for (auto cell : row) {
         value.clear();
         cell.read_value(value);

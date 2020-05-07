@@ -33,14 +33,12 @@ _So You Think You Can Trivia?_ is an app where you can test you knowledge of uni
 
   in line 66 of 'reader.hpp'
 - You can remedy this by replacing
-    
-        
-    mmap_ = mio::mmap_source(filename);
-    
-   with
+
+        mmap_ = mio::mmap_source(filename);
+  with
    
-    std::error_code error;
-    mmap_.map(filename, error);
+        std::error_code error;
+        mmap_.map(filename, error);
 - Once that is fixed, you can run the application and take the quizzes as many times as you'd like!
 - If you would like to provide your own quizzes, you can do so from the commandline
     - Make sure you save your quiz as a csv file that has exactly 4 answer choices and 1 correct answer for each 

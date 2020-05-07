@@ -12,12 +12,16 @@ namespace mylibrary {
   class Engine {
    public:
     /** Creates an engine with 4 options for trivia quizzes the user can take */
-    Engine(std::string file1, std::string file2, std::string file3, std::string file4);
-    /** Takes in the user's answer choice for the current question and stores it in the user_answers vector */
+    Engine(std::string file1, std::string file2, std::string file3,
+           std::string file4);
+    /** Takes in the user's answer choice for the current question and stores it
+     * in the user_answers vector */
     void SetAnswerChoice(int choice);
-    /** Returns the correct answer for the question specified by the number passed in */
+    /** Returns the correct answer for the question specified by the number
+     * passed in */
     std::string RetrieveAnswer(int num);
-    /** Returns the question and answer choices specified by the number passed in */
+    /** Returns the question and answer choices specified by the number
+     * passed in */
     std::vector<std::string> RetrieveQuestion(int num);
     /** Gets the index of the current question */
     int GetCurrQuestionIndex();
@@ -31,7 +35,8 @@ namespace mylibrary {
     bool CheckIsSelected(int choice);
     /** Returns the score the user got on the quiz */
     double GetScore();
-    /** Takes in the quiz the user chose to take and passes it to the setup class */
+    /** Takes in the quiz the user chose to take and passes it to the
+     * setup class */
     void HandleQuizChoice(int choice);
     /** Checks whether the quiz the user chose is valid */
     bool CheckIsValid();

@@ -51,7 +51,8 @@ void PrintText(const string& text, const C& color, const ivec2& size,
                  .font(font)
                  .size(size)
                  .color(color)
-                 .backgroundColor(ColorA(0, 0, 0, 0))
+                 .backgroundColor(ColorA(0, 0,
+                                            0, 0))
                  .text(text);
 
   const auto box_size = box.getSize();
@@ -113,7 +114,8 @@ void MyApp::keyDown(KeyEvent event) {
         // them to play again
         PlayAgain();
         break;
-      } else if (state_ == GameState::kTakingQuiz && engine_.CheckIsLastQuestion()) {
+      } else if (state_ == GameState::kTakingQuiz
+                 && engine_.CheckIsLastQuestion()) {
         // Pressing enter when the user is on the last question takes them to
         // the score page
         state_ = GameState::kShowScore;
